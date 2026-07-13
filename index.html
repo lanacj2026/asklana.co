@@ -239,6 +239,11 @@ footer{background:var(--bg);border-top:1px solid var(--border);padding:2.5rem;}
 
 /* ── RESPONSIVE ── */
 @media(max-width:1000px){
+  #creative .projects-grid{grid-template-columns:1fr;}
+  #lookout .projects-grid{grid-template-columns:1fr;}
+  #creative [style*="grid-template-columns:repeat(2"]{grid-template-columns:1fr!important;}
+  #creative [style*="grid-template-columns:1fr 1fr"]{grid-template-columns:1fr!important;}
+
   nav{padding:0 1.5rem;}
   .nav-links{display:none;}
   #hero{grid-template-columns:1fr;}
@@ -341,6 +346,15 @@ footer{background:var(--bg);border-top:1px solid var(--border);padding:2.5rem;}
   .relay-gallery-2col,.relay-gallery-3col{grid-template-columns:1fr !important;}
 }
 
+
+/* ── CREATIVE CTA ── */
+.creative-cta-strip{background:linear-gradient(135deg,rgba(100,80,255,0.12) 0%,rgba(139,143,245,0.07) 100%);border:1px solid rgba(139,143,245,0.2);border-radius:16px;padding:2rem;display:grid;grid-template-columns:1fr auto;align-items:center;gap:2rem;}
+.creative-cta-btn{background:var(--periwinkle);color:#fff;padding:0.72rem 1.4rem;border-radius:100px;font-weight:700;font-size:0.82rem;text-decoration:none;white-space:nowrap;transition:background 0.2s;}
+.creative-cta-btn:hover{background:var(--periwinkle-light);}
+@media(max-width:700px){
+  .creative-cta-strip{grid-template-columns:1fr;text-align:center;gap:1.2rem;}
+  .creative-cta-btn{display:block;text-align:center;}
+}
 
 /* ── RESUME PAGE ── */
 
@@ -689,6 +703,7 @@ to{opacity:1;transform:translateY(0);}}
     <li><a href="#about">About</a></li>
     <li><a href="#clients">Clients</a></li>
     <li><a href="#work">Work</a></li>
+    <li><a href="#creative" onclick="document.getElementById('creative').scrollIntoView({behavior:'smooth'}); return false;">Creative</a></li>
     <li><a href="#contact">Contact</a></li>
     <li><a href="#" onclick="showPage('resume'); return false;">Resume</a></li>
   </ul>
@@ -724,7 +739,8 @@ to{opacity:1;transform:translateY(0);}}
     <p class="hero-sub">Whether you're scaling a growing enterprise, modernizing legacy operations, or building from scratch — I analyze where you are, identify where you're losing, and build the systems that close the gap. End-to-end. No handoffs. No gaps.</p>
     <div class="hero-btns">
       <a href="#contact" class="btn-dark">Book a Call</a>
-      
+      <a href="#work" onclick="document.getElementById('work').scrollIntoView({behavior:'smooth'}); return false;" class="btn-outline">See Work</a>
+      <a href="#creative" onclick="document.getElementById('creative').scrollIntoView({behavior:'smooth'}); return false;" class="btn-outline">Creative Network</a>
     </div>
     <div class="hero-quick-tags">
       <span class="hqtag">Operational Infrastructure</span>
@@ -1168,7 +1184,7 @@ to{opacity:1;transform:translateY(0);}}
         <div class="section-eyebrow">About Lana</div>
         <h2 class="section-h2" style="margin-bottom:1.5rem;">Operator first.<br><em>Strategist always.</em></h2>
         <div class="about-intro-block">
-          <p class="about-intro">I'm Lana Johnson — founder of Asklana and the person doing the actual work. My background spans corporate operations, consulting, franchise management, and digital strategy. I've built systems for startups and cleaned up infrastructure for established enterprises. <strong>The size of the organization changes. The rigor doesn't.</strong></p>
+          <p class="about-intro">I'm Lana Johnson — founder of Asklana and the person doing the actual work. My background spans corporate operations, consulting, franchise management, and digital strategy. I've built systems for scrappy startups and cleaned up infrastructure for established enterprises. <strong>The size of the organization changes. The rigor doesn't.</strong></p>
           <p class="about-intro">I bring a rare combination of operational depth and digital fluency — I understand how businesses actually run, and I know how to build the technology and systems that make them run better. No fluff. No outsourced deliverables. Just sharp strategy and clean execution.</p>
         </div>
         <div class="about-edu">
@@ -1227,6 +1243,175 @@ to{opacity:1;transform:translateY(0);}}
   </div>
 </section>
 
+<!-- LOOKOUT -->
+<section id="lookout" style="background:var(--bg);border-top:1px solid var(--border);">
+  <div class="container">
+    <div class="work-top">
+      <div>
+        <div class="section-eyebrow">Coming Soon</div>
+        <h2 class="section-h2">Projects to be on<br><em>the lookout for.</em></h2>
+      </div>
+      <p class="section-sub">Active engagements in progress — full case studies dropping soon.</p>
+    </div>
+    <div class="projects-grid">
+
+      <!-- BIA -->
+      <div class="proj-card">
+        <div class="proj-info">
+          <span class="proj-badge" style="position:static;display:inline-block;margin-bottom:1.2rem;">Web & Product Development</span>
+          <h3>BIA</h3>
+          <p>Health & wellness brand built around athletic apparel and digital products. Currently building out the full website, e-commerce infrastructure, and digital product delivery systems — designed to convert and scale.</p>
+          <div class="proj-footer">
+            <div class="proj-tags">
+              <span class="ptag">Website Design & Build</span>
+              <span class="ptag">E-Commerce</span>
+              <span class="ptag">Product System Creation</span>
+              <span class="ptag">Digital Products</span>
+            </div>
+            <span style="font-size:0.72rem;color:var(--periwinkle);font-weight:600;font-style:italic;white-space:nowrap;">Case Study Coming Soon</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Alston Fitness -->
+      <div class="proj-card">
+        <div class="proj-info">
+          <span class="proj-badge" style="position:static;display:inline-block;margin-bottom:1.2rem;">App Development</span>
+          <h3>Alston Fitness</h3>
+          <p>Personal training brand in OKC integrating physical training, nutrition, and mental health alignment. Building a fully functional mobile app for client-facing training delivery alongside an administrator dashboard for complete client and program management.</p>
+          <div class="proj-footer">
+            <div class="proj-tags">
+              <span class="ptag">React Native</span>
+              <span class="ptag">Mobile App</span>
+              <span class="ptag">Admin Dashboard</span>
+              <span class="ptag">Client Management</span>
+              <span class="ptag">Nutrition & Training Systems</span>
+            </div>
+            <span style="font-size:0.72rem;color:var(--periwinkle);font-weight:600;font-style:italic;white-space:nowrap;">Case Study Coming Soon</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- CREATIVE -->
+<section id="creative" style="background:var(--bg2);border-top:1px solid var(--border);">
+  <div class="container">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:start;margin-bottom:4rem;flex-wrap:wrap;">
+      <div>
+        <div class="section-eyebrow">Creative Network</div>
+        <h2 class="section-h2">Creative outsourcing.<br><em>Real talent. Real results.</em></h2>
+      </div>
+      <div>
+        <p class="section-sub" style="max-width:100%;">Through my prior tenure as Founder & President of Midwest Creative Group, I built one of the most robust networks of local and regional creative talent in Oklahoma. Whether you need to find the right creative for your brand — or you're a creative looking for your next opportunity — I can connect you.</p>
+        <div style="display:flex;flex-wrap:wrap;gap:0.5rem;margin-top:1.5rem;">
+          <span class="stag">Photographers</span>
+          <span class="stag">Videographers</span>
+          <span class="stag">Creative Directors</span>
+          <span class="stag">Graphic Designers</span>
+          <span class="stag">Social Media Managers</span>
+          <span class="stag">Influencers & Content Creators</span>
+          <span class="stag">Models & Talent</span>
+          <span class="stag">Artists & Illustrators</span>
+          <span class="stag">Makeup & Wardrobe</span>
+          <span class="stag">Music & Audio</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Placement Cards -->
+    <div style="margin-bottom:3rem;">
+      <div class="section-eyebrow" style="margin-bottom:1.5rem;">Recent Placements & Engagements</div>
+      <div class="projects-grid">
+
+        <div class="proj-card">
+          <div class="proj-info">
+            <div class="proj-footer" style="margin-bottom:0.8rem;flex-wrap:nowrap;">
+              <span class="proj-badge" style="position:static;display:inline-block;">Talent Placement</span>
+              <span class="ptag">Food & Beverage</span>
+            </div>
+            <h3>The To-Go Box</h3>
+            <p>Sourced and placed a social media manager — matching the brand's voice, growth goals, and content needs with the right local creative professional.</p>
+            <div class="proj-footer" style="margin-top:1rem;">
+              <div class="proj-tags">
+                <span class="ptag">Talent Placement</span>
+                <span class="ptag">Social Media</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="proj-card">
+          <div class="proj-info">
+            <div class="proj-footer" style="margin-bottom:0.8rem;flex-wrap:nowrap;">
+              <span class="proj-badge" style="position:static;display:inline-block;">Talent Placement</span>
+              <span class="ptag">Beauty & Wellness</span>
+            </div>
+            <h3>Franco Aesthetics</h3>
+            <p>Sourced and placed a videographer aligned with the brand's aesthetic and content direction for ongoing visual content production.</p>
+            <div class="proj-footer" style="margin-top:1rem;">
+              <div class="proj-tags">
+                <span class="ptag">Talent Placement</span>
+                <span class="ptag">Videography</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="proj-card">
+          <div class="proj-info">
+            <div class="proj-footer" style="margin-bottom:0.8rem;flex-wrap:nowrap;">
+              <span class="proj-badge" style="position:static;display:inline-block;">Talent Sourcing</span>
+              <span class="ptag">Fashion & Events</span>
+            </div>
+            <h3>OFA Fashion</h3>
+            <p>Sourced and placed local talent and creatives for promotional shoots and campaign content leading up to their fashion shows in Tulsa.</p>
+            <div class="proj-footer" style="margin-top:1rem;">
+              <div class="proj-tags">
+                <span class="ptag">Talent Sourcing</span>
+                <span class="ptag">Production</span>
+                <span class="ptag">Fashion Shows</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="proj-card">
+          <div class="proj-info">
+            <div class="proj-footer" style="margin-bottom:0.8rem;flex-wrap:nowrap;">
+              <span class="proj-badge" style="position:static;display:inline-block;">Creative Direction</span>
+              <span class="ptag">Music & Entertainment</span>
+            </div>
+            <h3>METRA</h3>
+            <p>Led full creative direction for music video production — casting talent, coordinating directors, and managing the end-to-end creative process from concept through delivery.</p>
+            <div class="proj-footer" style="margin-top:1rem;">
+              <div class="proj-tags">
+                <span class="ptag">Creative Direction</span>
+                <span class="ptag">Talent Casting</span>
+                <span class="ptag">Music Video</span>
+              </div>
+              <a href="https://youtu.be/QBMxMwQPwEs?si=m8I7zAMlo8tUXY-Q" target="_blank" class="proj-link">▶ Watch →</a>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- CTA strip -->
+    <div class="creative-cta-strip">
+      <div>
+        <div style="font-size:0.88rem;font-weight:700;color:var(--white);margin-bottom:0.3rem;">Need a creative? Or are you one?</div>
+        <div style="font-size:0.83rem;color:var(--gray-light);line-height:1.6;">I connect brands with talent and creatives with opportunity. Let's talk about what you're looking for.</div>
+      </div>
+      <a href="#contact" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'}); return false;" class="creative-cta-btn">Get In Touch →</a>
+    </div>
+
+  </div>
+</section>
+
 <!-- REVIEWS -->
 <section id="reviews">
   <div class="container">
@@ -1274,7 +1459,7 @@ to{opacity:1;transform:translateY(0);}}
         <p>Whether you have a defined project or just know something isn't working — let's talk. I'll tell you exactly what I'd do and why. No pitch, no pressure.</p>
         <div class="contact-info">
           <!-- REPLACE with your real email -->
-          <a href="mailto:hello@asklana.co" class="contact-link">✉️ hello@asklana.co</a>
+          <a href="mailto:lana@asklana.co" class="contact-link">✉️ lana@asklana.co</a>
           <!-- REPLACE href with your Calendly or scheduling link -->
         </div>
       </div>
@@ -1319,7 +1504,7 @@ to{opacity:1;transform:translateY(0);}}
           </div>
           <button type="submit" class="form-submit" id="submitBtn"><span id="submitText">Send It →</span></button>
           <div id="formSuccess" class="form-success">✅ Got it — I'll be in touch shortly.</div>
-          <div id="formError" class="form-error">⚠️ Something went wrong. Email me directly at hello@asklana.co</div>
+          <div id="formError" class="form-error">⚠️ Something went wrong. Email me directly at lana@asklana.co</div>
         </form>
       </div>
     </div>
@@ -1828,92 +2013,58 @@ window.addEventListener('scroll',()=>{
 
 <!-- ══ CASE STUDY: CLUB FITNESS ══ -->
 <div id="cs-clubfitness" class="cs-page" style="display:none;padding-top:64px;min-height:100vh;background:#0a0a0a;">
-  
 <div class="cs-hero" style="background:#0d0808;">
   <div class="cs-hero-bg" style="background:radial-gradient(ellipse at 20% 50%, rgba(180,20,20,0.2) 0%, transparent 55%), radial-gradient(ellipse at 80% 30%, rgba(120,10,10,0.12) 0%, transparent 50%);"></div>
   <div class="cs-hero-grid" style="background-image:linear-gradient(rgba(180,20,20,0.06) 1px,transparent 1px),linear-gradient(90deg,rgba(180,20,20,0.06) 1px,transparent 1px);background-size:40px 40px;"></div>
   <div class="cs-hero-content">
-    <div class="cs-hero-badge" style="background:rgba(180,20,20,0.15);border-color:rgba(180,20,20,0.35);color:#f58080;">Brand Creation & Strategy · OKC</div>
+    <div class="cs-hero-badge" style="background:rgba(180,20,20,0.15);border-color:rgba(180,20,20,0.35);color:#f58080;">Brand Package Delivery · OKC</div>
     <div class="cs-hero-logo">Club <span style="color:#f58080;">Fitness.</span></div>
     <div class="cs-hero-sub">Health & Wellness · Oklahoma City, OK</div>
     <div class="cs-meta-pills">
-      <span class="cs-meta-pill">Brand Creation</span>
-      <span class="cs-meta-pill">Visual Identity</span>
-      <span class="cs-meta-pill">Brand Strategy</span>
-      <span class="cs-meta-pill">Social Media</span>
-      <span class="cs-meta-pill">Content Systems</span>
-      <span class="cs-meta-pill">Growth Strategy</span>
+      <span class="cs-meta-pill">Brand Identity</span>
+      <span class="cs-meta-pill">Visual System</span>
+      <span class="cs-meta-pill">Brand Voice</span>
+      <span class="cs-meta-pill">Style Guide</span>
     </div>
   </div>
 </div>
 <div class="cs-body">
   <div class="cs-stats">
     <div class="cs-stat"><div class="cs-stat-num" style="color:#f58080;">500+</div><div class="cs-stat-label">Active members<br>since launch</div></div>
-    <div class="cs-stat"><div class="cs-stat-num" style="color:#f58080;">2→1</div><div class="cs-stat-label">Corporate franchises<br>merged & rebranded</div></div>
-    <div class="cs-stat"><div class="cs-stat-num" style="color:#f58080;">OKC</div><div class="cs-stat-label">Recognized brand in<br>the Oklahoma City area</div></div>
+    <div class="cs-stat"><div class="cs-stat-num" style="color:#f58080;">2→1</div><div class="cs-stat-label">Corporate franchises<br>consolidated & rebranded</div></div>
     <div class="cs-stat"><div class="cs-stat-num" style="color:#f58080;">0→1</div><div class="cs-stat-label">Brand built<br>from scratch</div></div>
+    <div class="cs-stat"><div class="cs-stat-num" style="color:#f58080;">OKC</div><div class="cs-stat-label">Widely recognized<br>in the OKC market</div></div>
   </div>
 
   <div class="cs-section">
-    <div class="cs-eyebrow">The Backstory</div>
+    <div class="cs-eyebrow">The Situation</div>
     <h2>Two closures. <em>One opportunity.</em></h2>
-    <p>When two major corporate fitness franchises closed their Oklahoma City locations, it created both a gap in the market and an opportunity for something better. Two separate ownership groups chose to consolidate — merging their communities, their resources, and their vision into a single, privately-owned fitness brand that would be built to last.</p>
-    <p>The challenge: <strong>none of that vision had a name, a face, or a system behind it yet.</strong> That's where I came in. What they had was a concept, a community of members they wanted to keep, and a real chance to build something that didn't look or feel like a corporate franchise. What they needed was someone to turn that into a tangible, scalable brand.</p>
+    <p>When two major corporate fitness franchises shut down their Oklahoma City locations, ownership chose to consolidate — merging both communities into a single privately-owned fitness brand built on their own terms. What they didn't have yet was a brand. No name recognition, no visual identity, no voice. Just a vision and a loyal membership base worth keeping.</p>
   </div>
 
   <div class="cs-section">
-    <div class="cs-eyebrow">What I Built</div>
-    <h2>Vision to brand. <em>Concept to community.</em></h2>
-    <p>Club Fitness didn't exist before this engagement. The name, the visual identity, the voice, the digital presence — all of it was created from scratch.</p>
-    <div class="cs-feature-grid" style="grid-template-columns:repeat(3,1fr);">
-      <div class="cs-feature">
-        <div class="cs-feature-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M8.56 2.75c4.37 6.03 6.02 9.42 8.03 17.72m2.54-15.38c-3.72 4.35-8.94 5.66-16.88 5.85m19.5 1.9c-3.5-.93-6.63-.82-8.94 0-2.58.92-5.01 2.86-7.44 6.32"/></svg></div>
-        <h4>Brand Identity Creation</h4>
-        <p>Logo system, color palette, typography, and brand marks — built cohesively so every touchpoint looks like it belongs to the same brand.</p>
-      </div>
-      <div class="cs-feature">
-        <div class="cs-feature-icon"><svg viewBox="0 0 24 24"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/></svg></div>
-        <h4>Brand Voice & Positioning</h4>
-        <p>Defined how Club Fitness communicates — community-driven and personal, without losing the polish expected of a serious fitness brand.</p>
-      </div>
-      <div class="cs-feature">
-        <div class="cs-feature-icon"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg></div>
-        <h4>Community Retention Strategy</h4>
-        <p>The merged brand inherited members from both closed franchises. Built the messaging and content strategy to retain that existing community through the transition.</p>
-      </div>
-  </div>
-
-  <div class="cs-section">
-    <div class="cs-eyebrow">The Result</div>
-    <h2>A brand OKC <em>actually knows.</em></h2>
-    <p>Club Fitness is now a recognized name in the Oklahoma City fitness community. From two closed corporate franchises with no shared identity, the brand launched, built its audience, and grew to 500+ active members — with a visual identity and brand system that makes it look and feel like it was always here.</p>
-    <p><strong>That's what brand strategy is supposed to do.</strong> Not just look good on a launch post — build something that earns recognition over time and gives a business the foundation it needs to keep growing.</p>
+    <div class="cs-eyebrow">What I Delivered</div>
+    <h2>A complete brand package. <em>One engagement.</em></h2>
+    <p>I delivered a full brand identity package — everything needed to launch with confidence and grow without ever outgrowing the foundation. Logo system, color palette, typography, brand voice, and a comprehensive style guide built for consistency as the team and membership base expanded.</p>
+    <p>The work was a one-time engagement. The results have been lasting. Club Fitness launched with a brand that felt established from day one, and it is now a widely recognized name in the Oklahoma City fitness market with over 500 active members.</p>
   </div>
 
   <div class="cs-tech-grid" style="margin-bottom:5rem;">
-    <div class="cs-tech"><span class="cs-tech-dot" style="background:#f58080;"></span>Brand Creation & Identity</div>
-    <div class="cs-tech"><span class="cs-tech-dot" style="background:#f58080;"></span>Visual Design System</div>
+    <div class="cs-tech"><span class="cs-tech-dot" style="background:#f58080;"></span>Brand Identity Creation</div>
+    <div class="cs-tech"><span class="cs-tech-dot" style="background:#f58080;"></span>Logo System</div>
+    <div class="cs-tech"><span class="cs-tech-dot" style="background:#f58080;"></span>Color & Typography</div>
     <div class="cs-tech"><span class="cs-tech-dot" style="background:#f58080;"></span>Brand Voice & Positioning</div>
-    <div class="cs-tech"><span class="cs-tech-dot" style="background:#f58080;"></span>Social Media Management</div>
-    <div class="cs-tech"><span class="cs-tech-dot" style="background:#f58080;"></span>Content Strategy</div>
-    <div class="cs-tech"><span class="cs-tech-dot" style="background:#f58080;"></span>Community Growth</div>
-    <div class="cs-tech"><span class="cs-tech-dot" style="background:#f58080;"></span>Retention Strategy</div>
-    <div class="cs-tech"><span class="cs-tech-dot" style="background:#f58080;"></span>Scalable Brand Systems</div>
+    <div class="cs-tech"><span class="cs-tech-dot" style="background:#f58080;"></span>Style Guide</div>
+    <div class="cs-tech"><span class="cs-tech-dot" style="background:#f58080;"></span>Scalable Brand System</div>
   </div>
 
-  <div class="cs-cta">
-    <h3>Need a brand built from the ground up?</h3>
-    <p>Identity, strategy, systems, and growth — built to last and designed to scale. Let's talk about what you're building.</p>
-    <a href="#" onclick="showPage('main'); setTimeout(()=>document.getElementById('contact').scrollIntoView({behavior:'smooth'}),400)" class="cs-cta-btn">Get In Touch →</a>
+  <div class="cs-cta" style="position:relative;">
+    <h3 style="color:#ffffff;">Need a brand built right?</h3>
+    <p>From identity to positioning — I build brand foundations that grow with you.</p>
+    <a href="#" onclick="showPage('main'); setTimeout(()=>document.getElementById('contact').scrollIntoView({behavior:'smooth'}),300); return false;" class="cs-cta-btn">Get In Touch →</a>
   </div>
 </div>
-
 </div>
-
-
-
-
-
 
 <script>
 function showPage(page) {
@@ -1923,7 +2074,6 @@ function showPage(page) {
   const csPages = document.querySelectorAll('.cs-page');
 
   if (page === 'main') {
-    // Show main site
     mainContent.style.display = 'block';
     mainNav.style.display = 'flex';
     csNav.style.display = 'none';
@@ -1931,7 +2081,6 @@ function showPage(page) {
     window.scrollTo({top: 0, behavior: 'smooth'});
     history.pushState({page: 'main'}, '', window.location.pathname);
   } else {
-    // Show case study
     mainContent.style.display = 'none';
     mainNav.style.display = 'none';
     csNav.style.display = 'flex';
@@ -1942,7 +2091,6 @@ function showPage(page) {
       document.documentElement.scrollTop = 0;
       document.body.scrollTop = 0;
       target.style.display = 'block';
-      // Re-trigger animations
       target.querySelectorAll('.cs-stat,.cs-feature,.cs-tech,.cs-tl-item').forEach(el => {
         el.style.opacity = '0';
         el.style.transform = 'translateY(14px)';
@@ -1958,7 +2106,6 @@ function showPage(page) {
   return false;
 }
 
-// Browser back button
 window.addEventListener('popstate', function(e) {
   const hash = window.location.hash.replace('#','');
   if (hash && ['prooof','roadrunner','clubfitness','relay','resume'].includes(hash)) {
@@ -1968,7 +2115,6 @@ window.addEventListener('popstate', function(e) {
   }
 });
 
-// Check hash on load
 window.addEventListener('load', function() {
   const hash = window.location.hash.replace('#','');
   if (hash && ['prooof','roadrunner','clubfitness','relay','resume'].includes(hash)) {
@@ -1976,222 +2122,5 @@ window.addEventListener('load', function() {
   }
 });
 </script>
-
-
-<!-- ══ RESUME PAGE ══ -->
-<div id="cs-resume" class="cs-page" style="display:none;padding-top:64px;min-height:100vh;background:#0a0a0a;">
-<!-- HERO -->
-<div class="resume-hero">
-  <div class="resume-hero-inner">
-    <div>
-      <h1 class="resume-name">Eliana <span>(Lana)</span> Johnson</h1>
-      <p class="resume-title">Operations Leader · Systems Architect · Digital Strategist</p>
-      <div class="resume-contact">
-        <a href="mailto:johnsoneliana7@gmail.com"><span class="resume-contact-icon">✉</span> johnsoneliana7@gmail.com</a>
-        <a href="tel:5803401365"><span class="resume-contact-icon">📱</span> 580-340-1365</a>
-        <a href="#"><span class="resume-contact-icon">📍</span> Oklahoma City, OK</a>
-        <a href="https://asklana.co" target="_blank"><span class="resume-contact-icon">🌐</span> asklana.co</a>
-      </div>
-    </div>
-    <div class="resume-available">Open to opportunities</div>
-  </div>
-</div>
-
-<!-- BODY -->
-<div class="resume-body">
-
-  <!-- SUMMARY -->
-  <div class="r-label">Summary</div>
-  <div class="r-content">
-    <p class="summary-text">Versatile leader with experience spanning operations, finance, and marketing across corporate, franchise, and consulting environments. Skilled at leading large teams, driving growth through process improvement and strategic negotiation, and designing internal systems that streamline operations. Combines strong people leadership with a hands-on ability to build tools and technology that improve efficiency.</p>
-  </div>
-
-  <!-- EDUCATION -->
-  <div class="r-label">Education</div>
-  <div class="r-content">
-    <div class="edu-degree">Bachelor of Arts — Organizational Leadership & Development</div>
-    <div class="edu-school">University of Oklahoma · Norman, Oklahoma</div>
-  </div>
-
-  <!-- KEY SKILLS -->
-  <div class="r-label">Key Skills</div>
-  <div class="r-content">
-    <div class="skills-grid">
-      <div class="skill-item"><span class="skill-dot"></span>Team Leadership & Management</div>
-      <div class="skill-item"><span class="skill-dot"></span>SaaS Platform Efficiency & Implementation</div>
-      <div class="skill-item"><span class="skill-dot"></span>Process Improvement & Systems Design</div>
-      <div class="skill-item"><span class="skill-dot"></span>Social Media Strategy & SEO</div>
-      <div class="skill-item"><span class="skill-dot"></span>Contract Negotiation</div>
-      <div class="skill-item"><span class="skill-dot"></span>HTML/CSS, JavaScript, React Native & WordPress</div>
-      <div class="skill-item"><span class="skill-dot"></span>Client Relationship Management</div>
-      <div class="skill-item"><span class="skill-dot"></span>Google Ads, Meta Blueprint & Google Analytics</div>
-      <div class="skill-item"><span class="skill-dot"></span>Employee Development</div>
-      <div class="skill-item"><span class="skill-dot"></span>Excellent Written & Verbal Communication</div>
-    </div>
-  </div>
-
-  <!-- WORK EXPERIENCE -->
-  <div class="r-label">Work Experience</div>
-  <div class="r-content">
-
-    <!-- Corporate Accounting Manager -->
-    <div class="exp-block">
-      <div class="exp-header">
-        <div class="exp-role">Corporate Accounting Manager (AR/VMS)</div>
-        <span class="exp-dates">Oct 2026 — Present</span>
-      </div>
-      <div class="exp-company">Corporate Organization — Confidential</div>
-      <ul class="exp-bullets">
-        <li>Manage 17-person team across VMS Accounting and Corporate Accounts Receivable functions</li>
-        <li>Oversee accounts receivable for 850+ franchise locations, ensuring billing accuracy and timely reconciliation</li>
-        <li>Design and implement internal systems to streamline team workflows and improve operational visibility</li>
-        <li>Partner with department leadership to drive process improvements and resolve escalations</li>
-      </ul>
-      <div class="exp-achievement">
-        <div class="exp-achievement-label">Notable Achievement</div>
-        <p>Independently designed and built an internal web-based team management platform with team hubs, admin dashboards, task scheduling, and professional development tools — now used to coordinate daily operations across both teams.</p>
-      </div>
-    </div>
-
-    <!-- The Candice Group -->
-    <div class="exp-block">
-      <div class="exp-header">
-        <div class="exp-role">Oklahoma Operations Lead (Contract)</div>
-        <span class="exp-dates">Jan 2025 — Oct 2025</span>
-      </div>
-      <div class="exp-company">The Candice Group</div>
-      <ul class="exp-bullets">
-        <li>Served as point-of-contact for operations across a portfolio spanning 2 multi-territory businesses (Oryon Canna, Wren Harper) and 3 commercial properties (Carmel Properties)</li>
-        <li>Managed and oversaw $12M+ in revenue across all business units</li>
-        <li>Audited processes, systems, and staff performance; developed and implemented strategies to improve efficiency and support employee development</li>
-        <li>Led high-impact contract and partnership negotiations across the portfolio</li>
-      </ul>
-      <div class="exp-achievement">
-        <div class="exp-achievement-label">Notable Achievement</div>
-        <p>Cut operational costs by a total of $160,000 through process and personnel restructuring.</p>
-      </div>
-    </div>
-
-    <!-- RoadRunner -->
-    <div class="exp-block">
-      <div class="exp-header">
-        <div class="exp-role">Marketing Consultant (Contract)</div>
-        <span class="exp-dates">Dec 2024 — 2026</span>
-      </div>
-      <div class="exp-company">RoadRunner Scooters</div>
-      <ul class="exp-bullets">
-        <li>Manage social media marketing strategy and execution, driving audience growth and conversion across all channels</li>
-        <li>Conduct ongoing audits to identify growth opportunities, content gaps, and process inefficiencies</li>
-        <li>Collaborate cross-functionally with leadership and creative partners to align marketing initiatives with business goals</li>
-        <li>Develop content strategy including blog posts, social captions, competitor positioning, website auditing/restructuring, and campaign messaging</li>
-      </ul>
-      <div class="exp-achievement">
-        <div class="exp-achievement-label">Notable Achievement</div>
-        <p>Streamlined and automated marketing processes to the point of near-full self-sufficiency, reducing hands-on time to periodic audits and strategic adjustments.</p>
-      </div>
-    </div>
-
-    <!-- Allshore -->
-    <div class="exp-block">
-      <div class="exp-header">
-        <div class="exp-role">Allshore Global Resources <span style="font-weight:400;color:var(--gray-light);font-size:0.82rem;">(DBA Allshore Talent, part of Primero Group)</span></div>
-        <span class="exp-dates">Jun 2022 — Jan 2025</span>
-      </div>
-      <div class="exp-company">Global Staffing & Consulting</div>
-
-      <div class="exp-sub-role">Senior Client Consultant <span class="exp-sub-dates">Promoted Dec 2023</span></div>
-      <ul class="exp-bullets">
-        <li>Assigned to manage the company's 2 largest accounts, The Deyo Group and Ulula Canada, overseeing all contracted workers across both</li>
-        <li>Led process improvement initiatives and implementation for contracted workforce operations</li>
-        <li>Handled HR functions including employee relations, performance management, and workforce coordination for assigned accounts</li>
-      </ul>
-
-      <div class="exp-sub-role">Client Manager <span class="exp-sub-dates">Jun 2022 — Dec 2023</span></div>
-      <ul class="exp-bullets">
-        <li>Served as primary liaison for client accounts, managing onboarding, delivery, and ongoing satisfaction</li>
-        <li>Managed a team of 48 software developers, aligning technical delivery with client needs and growth objectives</li>
-        <li>Collaborated cross-functionally with development teams to ensure services met evolving client requirements</li>
-      </ul>
-
-      <div class="exp-achievement">
-        <div class="exp-achievement-label">Notable Achievement</div>
-        <p>Promoted to Senior Client Consultant at the direct request of a client, who sought expanded access to my account management and leadership.</p>
-      </div>
-    </div>
-
-  </div>
-
-  <!-- AWARDS / ACHIEVEMENTS -->
-  <div class="r-label">Awards & Certifications</div>
-  <div class="r-content">
-    <div class="award-item">
-      <svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89L17 22l-5-3-5 3 1.523-9.11"/></svg>
-      HOBY International Youth Ambassador
-    </div>
-    <div class="award-item">
-      <svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89L17 22l-5-3-5 3 1.523-9.11"/></svg>
-      Project Management Essentials Certified
-    </div>
-    <div class="award-item">
-      <svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89L17 22l-5-3-5 3 1.523-9.11"/></svg>
-      Google Ads Certified
-    </div>
-    <div class="award-item">
-      <svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89L17 22l-5-3-5 3 1.523-9.11"/></svg>
-      Meta Blueprint Certified
-    </div>
-    <div class="award-item">
-      <svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89L17 22l-5-3-5 3 1.523-9.11"/></svg>
-      Google Analytics Certified
-    </div>
-  </div>
-
-  <!-- REFERENCES -->
-  <div class="r-label">References</div>
-  <div class="r-content">
-    <div class="ref-grid">
-      <div class="ref-card">
-        <div class="ref-name">Latoya Simmons</div>
-        <div class="ref-rel">Former Direct Supervisor</div>
-        <div class="ref-org">Client Relations Lead · Allshore Talent</div>
-        <div class="ref-contact">Available upon request</div>
-      </div>
-      <div class="ref-card">
-        <div class="ref-name">John Von Runnen</div>
-        <div class="ref-rel">Mentor / Former Supervisor</div>
-        <div class="ref-org">Founder & President · The Deyo Group Inc.</div>
-        <div class="ref-contact">
-          <a href="tel:9729780364">P: Available Upon Request</a><br>
-          <a href="mailto:john.vonrunnen@deyogroup.com">Available Upon Request</a>
-        </div>
-      </div>
-    </div>
-  </div>
-
-</div>
-<script>
-// Resume scroll animations
-(function() {
-  const obs = new IntersectionObserver(entries => {
-    entries.forEach(e => {
-      if (e.isIntersecting) {
-        e.target.style.opacity = '1';
-        e.target.style.transform = 'translateY(0)';
-      }
-    });
-  }, { threshold: 0.08 });
-  setTimeout(() => {
-    document.querySelectorAll('#cs-resume .exp-block, #cs-resume .ref-card, #cs-resume .award-item').forEach(el => {
-      el.style.opacity = '0';
-      el.style.transform = 'translateY(12px)';
-      el.style.transition = 'opacity 0.45s ease, transform 0.45s ease';
-      obs.observe(el);
-    });
-  }, 100);
-})();
-</script>
-</div>
-<!-- END RESUME -->
-
 </body>
 </html>
