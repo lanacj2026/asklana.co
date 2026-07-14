@@ -39,6 +39,8 @@ nav{position:fixed;top:0;left:0;right:0;z-index:999;background:var(--bg);border-
 .nav-right{display:flex;align-items:center;gap:0.75rem;}
 .nav-btn-ghost{background:transparent;border:1px solid var(--border);color:var(--gray-light);font-size:0.78rem;font-weight:600;padding:0.45rem 1rem;border-radius:100px;text-decoration:none;transition:border-color 0.2s,color 0.2s;white-space:nowrap;}
 .nav-btn-ghost:hover{border-color:var(--border-hover);color:var(--white);}
+.nav-portal-btn{display:inline-flex;align-items:center;gap:0.4rem;background:transparent;border:1px solid rgba(139,143,245,0.35);color:var(--periwinkle-light);font-size:0.78rem;font-weight:600;padding:0.42rem 0.95rem;border-radius:100px;text-decoration:none;transition:all 0.2s;cursor:pointer;}
+.nav-portal-btn:hover{background:rgba(139,143,245,0.12);border-color:var(--periwinkle);}
 .nav-cta{background:var(--white);color:var(--bg);font-size:0.8rem;font-weight:700;padding:0.48rem 1.1rem;border-radius:100px;text-decoration:none;transition:background 0.2s,transform 0.15s;white-space:nowrap;}
 .nav-cta:hover{background:var(--off-white);transform:translateY(-1px);}
 
@@ -675,6 +677,7 @@ body{background:var(--bg);color:var(--white);font-family:'Plus Jakarta Sans',san
 50%{opacity:0.4;}}
 to{opacity:1;transform:translateY(0);}}
 
+
 </style>
 </head>
 <body>
@@ -694,7 +697,7 @@ to{opacity:1;transform:translateY(0);}}
   </ul>
   <div class="nav-right">
     
-    <a href="#contact" class="nav-cta">Contact</a>
+    <a href="#" onclick="showPortal('login'); return false;" class="nav-portal-btn">Client Portal</a><a href="#contact" class="nav-cta">Contact</a>
   </div>
 </nav>
 
@@ -2070,5 +2073,1628 @@ window.addEventListener('load', function() {
   }
 });
 </script>
+
+
+<style id="portal-styles">
+/* ══ PORTAL PAGES ══ */
+.portal-page { display: none; position: fixed; inset: 0; z-index: 9000; background: #0a0a0a; overflow-y: auto; }
+.portal-page.portal-active { display: block; }
+
+/* Login page centering */
+#portal-login { display: none; position: fixed; inset: 0; z-index: 9000; background: #0a0a0a; overflow-y: auto; align-items: center; justify-content: center; flex-direction: column; }
+#portal-login.portal-active { display: flex; }
+
+/* Portal styles - Login */
+
+:root {
+  --bg: #0a0a0a; --bg2: #111; --card: #141414;
+  --border: rgba(255,255,255,0.08); --border-hover: rgba(255,255,255,0.18);
+  --periwinkle: #8b8ff5; --periwinkle-light: #a8abff;
+  --white: #fff; --off-white: #e8e8e8; --gray: #444; --gray-light: #888;
+  --red: #f87171; --red-dim: rgba(248,113,113,0.1);
+  --green: #b8f5a0; --green-dim: rgba(184,245,160,0.1);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html,body{margin:0;padding:0;min-height:100vh;}
+body{background:var(--bg);color:var(--white);font-family:'Plus Jakarta Sans',sans-serif;display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:100vh;padding:2rem;}
+
+.login-wrap{width:100%;max-width:420px;}
+
+.login-logo{text-align:center;margin-bottom:2.5rem;}
+.login-logo-mark{
+  width:52px;height:52px;background:var(--periwinkle);border-radius:14px;
+  display:inline-flex;align-items:center;justify-content:center;
+  font-size:1.2rem;font-weight:800;color:var(--bg);margin-bottom:0.9rem;
+}
+.login-logo-name{font-size:1.2rem;font-weight:800;letter-spacing:-0.02em;color:var(--white);}
+.login-logo-name span{color:var(--periwinkle);}
+.login-logo-sub{font-size:0.78rem;color:var(--gray-light);margin-top:0.3rem;}
+
+.login-card{
+  background:var(--card);border:1px solid var(--border);
+  border-radius:20px;padding:2rem;
+}
+
+.login-title{font-size:1.05rem;font-weight:800;letter-spacing:-0.02em;margin-bottom:0.3rem;}
+.login-sub{font-size:0.8rem;color:var(--gray-light);margin-bottom:1.8rem;}
+
+.form-group{display:flex;flex-direction:column;gap:0.4rem;margin-bottom:1rem;}
+.form-label{font-size:0.7rem;font-weight:700;color:var(--gray-light);letter-spacing:0.08em;text-transform:uppercase;}
+.form-input{
+  width:100%;background:var(--bg2);border:1px solid var(--border);
+  border-radius:10px;padding:0.75rem 1rem;color:var(--white);
+  font-family:'Plus Jakarta Sans',sans-serif;font-size:0.88rem;
+  outline:none;transition:border-color 0.2s;
+}
+.form-input:focus{border-color:var(--periwinkle);}
+.form-input::placeholder{color:var(--gray);}
+
+.login-btn{
+  width:100%;background:var(--periwinkle);color:var(--bg);
+  padding:0.85rem;border-radius:10px;border:none;
+  font-family:'Plus Jakarta Sans',sans-serif;font-size:0.9rem;
+  font-weight:700;cursor:pointer;transition:background 0.2s;
+  margin-top:0.5rem;display:flex;align-items:center;justify-content:center;gap:0.5rem;
+}
+.login-btn:hover{background:var(--periwinkle-light);}
+.login-btn:disabled{opacity:0.5;cursor:not-allowed;}
+
+.error-msg{
+  background:var(--red-dim);border:1px solid rgba(248,113,113,0.2);
+  border-radius:10px;padding:0.75rem 1rem;
+  font-size:0.8rem;color:var(--red);margin-top:1rem;display:none;
+}
+
+.login-footer{text-align:center;margin-top:1.5rem;font-size:0.78rem;color:var(--gray-light);}
+.login-footer a{color:var(--periwinkle-light);text-decoration:none;}
+.login-footer a:hover{color:var(--white);}
+
+.spinner{
+  width:16px;height:16px;border:2px solid rgba(0,0,0,0.2);
+  border-top-color:var(--bg);border-radius:50%;
+  animation:spin 0.7s linear infinite;display:none;
+}
+@keyframes spin{to{transform:rotate(360deg);}}
+@keyframes pulse{0%,100%{opacity:1;}50%{opacity:0.4;}}
+
+
+/* Portal styles - Owner */
+
+:root{
+  --bg:#0a0a0a;--bg2:#111;--bg3:#181818;--card:#141414;
+  --border:rgba(255,255,255,0.07);--border-hover:rgba(255,255,255,0.15);
+  --periwinkle:#8b8ff5;--periwinkle-light:#a8abff;--periwinkle-dim:rgba(139,143,245,0.12);
+  --white:#fff;--off-white:#e8e8e8;--gray:#444;--gray-light:#888;
+  --green:#b8f5a0;--green-dim:rgba(184,245,160,0.1);
+  --amber:#f5c842;--amber-dim:rgba(245,200,66,0.1);
+  --blue:#60a5fa;--blue-dim:rgba(96,165,250,0.1);
+  --red:#f87171;--red-dim:rgba(248,113,113,0.1);
+  --sidebar:220px;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html,body{margin:0;padding:0;height:100%;}
+body{background:var(--bg);color:var(--white);font-family:'Plus Jakarta Sans',sans-serif;font-size:14px;line-height:1.5;display:flex;min-height:100vh;}
+
+.sidebar{width:var(--sidebar);background:var(--bg2);border-right:1px solid var(--border);display:flex;flex-direction:column;position:fixed;top:0;left:0;bottom:0;z-index:100;}
+.sidebar-logo{padding:1.4rem;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:0.6rem;}
+.logo-mark{width:28px;height:28px;background:var(--periwinkle);border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:0.75rem;font-weight:800;color:var(--bg);flex-shrink:0;}
+.logo-text{font-size:0.92rem;font-weight:800;letter-spacing:-0.02em;}
+.logo-text span{color:var(--periwinkle);}
+.owner-badge{margin-left:auto;background:rgba(139,143,245,0.15);border:1px solid rgba(139,143,245,0.3);color:var(--periwinkle-light);font-size:0.58rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;padding:0.15rem 0.5rem;border-radius:100px;}
+
+.sidebar-user{padding:1rem 1.2rem;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:0.7rem;}
+.user-av{width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,var(--periwinkle),var(--periwinkle-light));display:flex;align-items:center;justify-content:center;font-size:0.72rem;font-weight:700;color:var(--bg);flex-shrink:0;}
+.user-name{font-size:0.8rem;font-weight:700;}
+.user-role{font-size:0.66rem;color:var(--periwinkle-light);font-weight:600;}
+
+.sidebar-nav{flex:1;padding:0.8rem 0.6rem;display:flex;flex-direction:column;gap:0.15rem;overflow-y:auto;}
+.nav-label{font-size:0.6rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--gray);padding:0.6rem 0.7rem 0.3rem;}
+.nav-item{display:flex;align-items:center;gap:0.65rem;padding:0.6rem 0.8rem;border-radius:8px;font-size:0.82rem;font-weight:500;color:var(--gray-light);cursor:pointer;transition:all 0.15s;border:none;background:none;width:100%;text-align:left;font-family:inherit;}
+.nav-item:hover{background:var(--bg3);color:var(--white);}
+.nav-item.active{background:var(--periwinkle-dim);color:var(--periwinkle-light);font-weight:600;}
+.nav-icon{width:16px;height:16px;flex-shrink:0;}
+.nav-icon svg{width:100%;height:100%;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;}
+.nav-badge{margin-left:auto;background:var(--periwinkle);color:var(--bg);font-size:0.6rem;font-weight:700;padding:0.15rem 0.45rem;border-radius:100px;min-width:18px;text-align:center;}
+.nav-badge.red{background:var(--red);}
+
+.sidebar-footer{padding:1rem 0.8rem;border-top:1px solid var(--border);}
+.signout-btn{display:flex;align-items:center;gap:0.6rem;width:100%;padding:0.6rem 0.8rem;border-radius:8px;font-size:0.8rem;font-weight:500;color:var(--gray-light);background:none;border:none;cursor:pointer;transition:all 0.15s;font-family:inherit;}
+.signout-btn:hover{background:var(--red-dim);color:var(--red);}
+
+.main{margin-left:var(--sidebar);flex:1;display:flex;flex-direction:column;min-height:100vh;}
+.topbar{height:56px;background:var(--bg);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:0 1.8rem;position:sticky;top:0;z-index:50;}
+.topbar-title{font-size:0.92rem;font-weight:700;}
+.topbar-sub{font-size:0.75rem;color:var(--gray-light);margin-top:0.05rem;}
+.topbar-right{display:flex;align-items:center;gap:0.75rem;}
+
+.btn{display:inline-flex;align-items:center;gap:0.4rem;padding:0.4rem 0.9rem;border-radius:8px;font-size:0.78rem;font-weight:600;cursor:pointer;border:1px solid var(--border);background:transparent;color:var(--gray-light);transition:all 0.15s;font-family:inherit;}
+.btn:hover{border-color:var(--border-hover);color:var(--white);}
+.btn-primary{background:var(--periwinkle);border-color:var(--periwinkle);color:var(--bg);font-weight:700;}
+.btn-primary:hover{background:var(--periwinkle-light);border-color:var(--periwinkle-light);color:var(--bg);}
+.btn-sm{padding:0.3rem 0.7rem;font-size:0.72rem;border-radius:6px;}
+
+.page{padding:1.8rem;flex:1;}
+
+/* VIEWS */
+.view{display:none;}
+.view.active{display:block;}
+
+/* STATS */
+.stat-row{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;margin-bottom:1.5rem;}
+.stat-card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:1.2rem 1.3rem;display:flex;align-items:center;gap:1rem;}
+.stat-icon{width:38px;height:38px;border-radius:9px;flex-shrink:0;display:flex;align-items:center;justify-content:center;}
+.stat-icon svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;}
+.stat-icon.purple{background:var(--periwinkle-dim);color:var(--periwinkle);}
+.stat-icon.green{background:var(--green-dim);color:var(--green);}
+.stat-icon.amber{background:var(--amber-dim);color:var(--amber);}
+.stat-icon.blue{background:var(--blue-dim);color:var(--blue);}
+.stat-num{font-size:1.5rem;font-weight:800;letter-spacing:-0.04em;line-height:1;margin-bottom:0.15rem;}
+.stat-label{font-size:0.72rem;color:var(--gray-light);font-weight:500;}
+
+.grid-2{display:grid;grid-template-columns:1fr 340px;gap:1.2rem;}
+
+.section-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:0.9rem;}
+.section-hdr h3{font-size:0.88rem;font-weight:700;}
+
+/* TABLE */
+.data-table{background:var(--card);border:1px solid var(--border);border-radius:12px;overflow:hidden;margin-bottom:1.2rem;}
+.table-head{display:grid;gap:0;padding:0.65rem 1.1rem;border-bottom:1px solid var(--border);font-size:0.68rem;font-weight:700;color:var(--gray-light);letter-spacing:0.06em;text-transform:uppercase;}
+.table-row{display:grid;gap:0;padding:0.85rem 1.1rem;border-bottom:1px solid var(--border);align-items:center;transition:background 0.1s;cursor:pointer;}
+.table-row:last-child{border-bottom:none;}
+.table-row:hover{background:var(--bg3);}
+.client-cols{grid-template-columns:2fr 1.5fr 1fr 1fr 80px;}
+
+.cell-name{display:flex;align-items:center;gap:0.7rem;}
+.cell-av{width:30px;height:30px;border-radius:50%;background:var(--periwinkle-dim);border:1px solid rgba(139,143,245,0.2);display:flex;align-items:center;justify-content:center;font-size:0.65rem;font-weight:700;color:var(--periwinkle-light);flex-shrink:0;}
+.cell-main{font-size:0.82rem;font-weight:700;}
+.cell-sub{font-size:0.68rem;color:var(--gray-light);}
+.cell-text{font-size:0.78rem;color:var(--off-white);}
+
+.status-pill{font-size:0.65rem;font-weight:700;padding:0.2rem 0.65rem;border-radius:100px;letter-spacing:0.04em;text-transform:uppercase;white-space:nowrap;}
+.s-active{background:var(--green-dim);color:var(--green);border:1px solid rgba(184,245,160,0.2);}
+.s-pending{background:var(--amber-dim);color:var(--amber);border:1px solid rgba(245,200,66,0.2);}
+.s-review{background:var(--blue-dim);color:var(--blue);border:1px solid rgba(96,165,250,0.2);}
+.s-complete{background:rgba(255,255,255,0.04);color:var(--gray-light);border:1px solid var(--border);}
+.s-inactive{background:rgba(255,255,255,0.04);color:var(--gray-light);border:1px solid var(--border);}
+.s-new{background:rgba(139,143,245,0.15);color:var(--periwinkle-light);border:1px solid rgba(139,143,245,0.3);}
+
+.row-actions{display:flex;gap:0.35rem;justify-content:flex-end;}
+.icon-btn{width:26px;height:26px;border-radius:6px;border:1px solid var(--border);background:transparent;color:var(--gray-light);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all 0.15s;}
+.icon-btn:hover{border-color:var(--periwinkle);color:var(--periwinkle);background:var(--periwinkle-dim);}
+.icon-btn svg{width:12px;height:12px;stroke:currentColor;fill:none;stroke-width:2;}
+
+/* PROJECT CARDS */
+.proj-cards{display:flex;flex-direction:column;gap:0.75rem;margin-bottom:1.2rem;}
+.proj-card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:1rem 1.1rem;transition:border-color 0.15s;}
+.proj-card:hover{border-color:var(--border-hover);}
+.proj-card-hdr{display:flex;align-items:flex-start;justify-content:space-between;gap:0.8rem;margin-bottom:0.7rem;}
+.proj-title{font-size:0.85rem;font-weight:700;margin-bottom:0.1rem;}
+.proj-client{font-size:0.72rem;color:var(--periwinkle-light);font-weight:600;}
+.proj-card-actions{display:flex;gap:0.35rem;flex-shrink:0;align-items:center;}
+.prog-row{display:flex;align-items:center;gap:0.8rem;}
+.prog-track{flex:1;height:4px;background:rgba(255,255,255,0.06);border-radius:100px;overflow:hidden;}
+.prog-fill{height:100%;border-radius:100px;background:linear-gradient(to right,var(--periwinkle),var(--periwinkle-light));}
+.prog-pct{font-size:0.7rem;color:var(--gray-light);font-weight:600;width:30px;text-align:right;flex-shrink:0;}
+.proj-meta{display:flex;gap:0.8rem;align-items:center;margin-top:0.6rem;flex-wrap:wrap;}
+.proj-meta-tag{font-size:0.67rem;color:var(--gray-light);display:flex;align-items:center;gap:0.3rem;}
+.proj-meta-tag svg{width:10px;height:10px;stroke:currentColor;fill:none;stroke-width:2;}
+
+/* MESSAGES */
+.msg-list{background:var(--card);border:1px solid var(--border);border-radius:12px;overflow:hidden;margin-bottom:1.2rem;}
+.msg-thread{padding:0.8rem 1rem;border-bottom:1px solid var(--border);cursor:pointer;transition:background 0.1s;}
+.msg-thread:last-child{border-bottom:none;}
+.msg-thread:hover{background:var(--bg3);}
+.msg-thread-hdr{display:flex;justify-content:space-between;align-items:center;margin-bottom:0.2rem;}
+.msg-sender{font-size:0.8rem;font-weight:700;display:flex;align-items:center;gap:0.4rem;}
+.unread-dot{width:7px;height:7px;border-radius:50%;background:var(--periwinkle);flex-shrink:0;}
+.msg-time{font-size:0.65rem;color:var(--gray-light);}
+.msg-preview{font-size:0.74rem;color:var(--gray-light);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.msg-project{font-size:0.62rem;color:var(--periwinkle);font-weight:600;margin-top:0.15rem;}
+
+/* INQUIRIES */
+.inq-list{display:flex;flex-direction:column;gap:0.5rem;}
+.inq-card{background:var(--card);border:1px solid rgba(139,143,245,0.25);border-radius:10px;padding:0.9rem 1rem;transition:border-color 0.15s;cursor:pointer;}
+.inq-card:hover{border-color:var(--periwinkle);}
+.inq-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:0.3rem;}
+.inq-from{font-size:0.8rem;font-weight:700;display:flex;align-items:center;gap:0.4rem;}
+.inq-time{font-size:0.65rem;color:var(--gray-light);}
+.inq-text{font-size:0.77rem;color:var(--gray-light);line-height:1.5;margin-bottom:0.6rem;}
+.inq-actions{display:flex;gap:0.4rem;}
+
+/* RIGHT COL */
+.right-col{display:flex;flex-direction:column;gap:1.2rem;}
+.r-card{background:var(--card);border:1px solid var(--border);border-radius:12px;overflow:hidden;}
+.r-card-hdr{padding:0.85rem 1.1rem;border-bottom:1px solid var(--border);font-size:0.82rem;font-weight:700;display:flex;align-items:center;gap:0.5rem;}
+.r-card-hdr svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2;color:var(--periwinkle);}
+.r-card-body{padding:1.1rem;}
+
+/* FORMS */
+.form-group{display:flex;flex-direction:column;gap:0.35rem;margin-bottom:0.8rem;}
+.form-label{font-size:0.68rem;font-weight:700;color:var(--gray-light);letter-spacing:0.06em;text-transform:uppercase;}
+.form-input{width:100%;background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:0.6rem 0.8rem;color:var(--white);font-family:inherit;font-size:0.8rem;outline:none;transition:border-color 0.15s;}
+.form-input:focus{border-color:var(--periwinkle);}
+.form-input::placeholder{color:var(--gray);}
+.form-select{appearance:none;cursor:pointer;}
+
+/* ACTIVITY */
+.activity-list{display:flex;flex-direction:column;}
+.act-item{display:flex;gap:0.75rem;padding:0.65rem 0;border-bottom:1px solid var(--border);}
+.act-item:last-child{border-bottom:none;}
+.act-dot{width:8px;height:8px;border-radius:50%;background:var(--periwinkle-dim);border:2px solid var(--periwinkle);flex-shrink:0;margin-top:0.22rem;}
+.act-text{font-size:0.77rem;color:var(--off-white);line-height:1.45;margin-bottom:0.1rem;}
+.act-text strong{color:var(--white);}
+.act-time{font-size:0.65rem;color:var(--gray-light);}
+
+/* MODAL */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.7);z-index:200;display:none;align-items:center;justify-content:center;backdrop-filter:blur(4px);}
+.modal-overlay.open{display:flex;}
+.modal{background:var(--card);border:1px solid var(--border);border-radius:20px;padding:2rem;width:100%;max-width:480px;max-height:90vh;overflow-y:auto;}
+.modal-title{font-size:1rem;font-weight:800;letter-spacing:-0.02em;margin-bottom:0.3rem;}
+.modal-sub{font-size:0.8rem;color:var(--gray-light);margin-bottom:1.5rem;}
+.modal-footer{display:flex;gap:0.6rem;justify-content:flex-end;margin-top:1.2rem;}
+
+/* TOAST */
+.toast{position:fixed;bottom:1.5rem;right:1.5rem;background:var(--card);border:1px solid var(--border);border-radius:12px;padding:0.85rem 1.2rem;font-size:0.82rem;font-weight:600;z-index:300;transform:translateY(20px);opacity:0;transition:all 0.3s;pointer-events:none;}
+.toast.show{transform:translateY(0);opacity:1;}
+.toast.success{border-color:rgba(184,245,160,0.3);color:var(--green);}
+.toast.error{border-color:rgba(248,113,113,0.3);color:var(--red);}
+
+/* MINI STATS */
+.mini-stats{display:grid;grid-template-columns:1fr 1fr;gap:0.6rem;}
+.mini-stat{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:0.9rem 1rem;text-align:center;}
+.mini-num{font-size:1.3rem;font-weight:800;letter-spacing:-0.04em;color:var(--periwinkle-light);line-height:1;margin-bottom:0.2rem;}
+.mini-label{font-size:0.67rem;color:var(--gray-light);font-weight:500;}
+
+/* MSG COMPOSER */
+.composer{background:var(--card);border:1px solid var(--border);border-radius:12px;overflow:hidden;}
+.composer-hdr{padding:0.75rem 1rem;border-bottom:1px solid var(--border);font-size:0.78rem;font-weight:600;}
+.composer-body{padding:0.8rem 1rem;}
+.msg-textarea{width:100%;background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:0.7rem 0.9rem;color:var(--white);font-family:inherit;font-size:0.82rem;resize:none;outline:none;transition:border-color 0.15s;min-height:80px;}
+.msg-textarea:focus{border-color:var(--periwinkle);}
+.msg-textarea::placeholder{color:var(--gray);}
+.composer-footer{display:flex;justify-content:flex-end;padding:0.6rem 1rem;border-top:1px solid var(--border);gap:0.5rem;}
+
+.empty-state{text-align:center;padding:2.5rem 1rem;color:var(--gray-light);font-size:0.82rem;}
+.loading{text-align:center;padding:2rem;color:var(--gray-light);font-size:0.82rem;}
+
+@keyframes pulse{0%,100%{opacity:1;}50%{opacity:0.4;}}
+
+
+/* Portal styles - Client */
+
+:root{
+  --bg:#0a0a0a;--bg2:#111;--bg3:#181818;--card:#141414;
+  --border:rgba(255,255,255,0.07);--border-hover:rgba(255,255,255,0.15);
+  --periwinkle:#8b8ff5;--periwinkle-light:#a8abff;--periwinkle-dim:rgba(139,143,245,0.12);
+  --white:#fff;--off-white:#e8e8e8;--gray:#444;--gray-light:#888;
+  --green:#b8f5a0;--green-dim:rgba(184,245,160,0.1);
+  --amber:#f5c842;--amber-dim:rgba(245,200,66,0.1);
+  --blue:#60a5fa;--blue-dim:rgba(96,165,250,0.1);
+  --red:#f87171;--red-dim:rgba(248,113,113,0.1);
+  --sidebar:220px;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html,body{margin:0;padding:0;height:100%;}
+body{background:var(--bg);color:var(--white);font-family:'Plus Jakarta Sans',sans-serif;font-size:14px;line-height:1.5;display:flex;min-height:100vh;}
+
+.sidebar{width:var(--sidebar);background:var(--bg2);border-right:1px solid var(--border);display:flex;flex-direction:column;position:fixed;top:0;left:0;bottom:0;z-index:100;}
+.sidebar-logo{padding:1.4rem;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:0.6rem;}
+.logo-mark{width:28px;height:28px;background:var(--periwinkle);border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:0.75rem;font-weight:800;color:var(--bg);}
+.logo-text{font-size:0.92rem;font-weight:800;letter-spacing:-0.02em;}
+.logo-text span{color:var(--periwinkle);}
+.sidebar-user{padding:1rem 1.2rem;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:0.7rem;}
+.user-av{width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,var(--periwinkle),var(--periwinkle-light));display:flex;align-items:center;justify-content:center;font-size:0.72rem;font-weight:700;color:var(--bg);flex-shrink:0;}
+.user-name{font-size:0.8rem;font-weight:700;}
+.user-role{font-size:0.66rem;color:var(--gray-light);}
+.sidebar-nav{flex:1;padding:0.8rem 0.6rem;display:flex;flex-direction:column;gap:0.15rem;overflow-y:auto;}
+.nav-label{font-size:0.6rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--gray);padding:0.6rem 0.7rem 0.3rem;}
+.nav-item{display:flex;align-items:center;gap:0.65rem;padding:0.6rem 0.8rem;border-radius:8px;font-size:0.82rem;font-weight:500;color:var(--gray-light);cursor:pointer;transition:all 0.15s;border:none;background:none;width:100%;text-align:left;font-family:inherit;}
+.nav-item:hover{background:var(--bg3);color:var(--white);}
+.nav-item.active{background:var(--periwinkle-dim);color:var(--periwinkle-light);font-weight:600;}
+.nav-icon{width:16px;height:16px;flex-shrink:0;}
+.nav-icon svg{width:100%;height:100%;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;}
+.nav-badge{margin-left:auto;background:var(--periwinkle);color:var(--bg);font-size:0.6rem;font-weight:700;padding:0.15rem 0.45rem;border-radius:100px;min-width:18px;text-align:center;}
+.sidebar-footer{padding:1rem 0.8rem;border-top:1px solid var(--border);}
+.signout-btn{display:flex;align-items:center;gap:0.6rem;width:100%;padding:0.6rem 0.8rem;border-radius:8px;font-size:0.8rem;font-weight:500;color:var(--gray-light);background:none;border:none;cursor:pointer;transition:all 0.15s;font-family:inherit;}
+.signout-btn:hover{background:var(--red-dim);color:var(--red);}
+
+.main{margin-left:var(--sidebar);flex:1;display:flex;flex-direction:column;min-height:100vh;}
+.topbar{height:56px;background:var(--bg);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:0 1.8rem;position:sticky;top:0;z-index:50;}
+.topbar-title{font-size:0.92rem;font-weight:700;}
+.topbar-sub{font-size:0.75rem;color:var(--gray-light);margin-top:0.05rem;}
+
+.btn{display:inline-flex;align-items:center;gap:0.4rem;padding:0.4rem 0.9rem;border-radius:8px;font-size:0.78rem;font-weight:600;cursor:pointer;border:1px solid var(--border);background:transparent;color:var(--gray-light);transition:all 0.15s;font-family:inherit;}
+.btn:hover{border-color:var(--border-hover);color:var(--white);}
+.btn-primary{background:var(--periwinkle);border-color:var(--periwinkle);color:var(--bg);font-weight:700;}
+.btn-primary:hover{background:var(--periwinkle-light);border-color:var(--periwinkle-light);color:var(--bg);}
+.btn-sm{padding:0.3rem 0.7rem;font-size:0.72rem;border-radius:6px;}
+
+.page{padding:1.8rem;flex:1;}
+.view{display:none;}
+.view.active{display:block;}
+
+.welcome-banner{background:linear-gradient(135deg,rgba(139,143,245,0.12) 0%,rgba(100,80,255,0.07) 100%);border:1px solid rgba(139,143,245,0.2);border-radius:14px;padding:1.4rem 1.6rem;display:flex;align-items:center;justify-content:space-between;margin-bottom:1.5rem;gap:1rem;}
+.welcome-text h2{font-size:1.1rem;font-weight:800;letter-spacing:-0.02em;margin-bottom:0.2rem;}
+.welcome-text p{font-size:0.8rem;color:var(--gray-light);}
+.welcome-status{display:flex;align-items:center;gap:0.5rem;background:var(--green-dim);border:1px solid rgba(184,245,160,0.2);border-radius:100px;padding:0.35rem 0.9rem;font-size:0.72rem;font-weight:600;color:var(--green);white-space:nowrap;}
+.status-dot{width:6px;height:6px;border-radius:50%;background:var(--green);animation:pulse 2s infinite;}
+
+.stat-row{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin-bottom:1.5rem;}
+.stat-card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:1.2rem 1.3rem;display:flex;align-items:center;gap:1rem;}
+.stat-icon{width:38px;height:38px;border-radius:9px;flex-shrink:0;display:flex;align-items:center;justify-content:center;}
+.stat-icon svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;}
+.stat-icon.purple{background:var(--periwinkle-dim);color:var(--periwinkle);}
+.stat-icon.green{background:var(--green-dim);color:var(--green);}
+.stat-icon.amber{background:var(--amber-dim);color:var(--amber);}
+.stat-num{font-size:1.5rem;font-weight:800;letter-spacing:-0.04em;line-height:1;margin-bottom:0.15rem;}
+.stat-label{font-size:0.72rem;color:var(--gray-light);font-weight:500;}
+
+.grid-2{display:grid;grid-template-columns:1fr 320px;gap:1.2rem;}
+.section-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:0.9rem;}
+.section-hdr h3{font-size:0.88rem;font-weight:700;}
+.section-hdr a{font-size:0.75rem;color:var(--periwinkle);text-decoration:none;font-weight:600;}
+
+.proj-list{display:flex;flex-direction:column;gap:0.75rem;margin-bottom:1.2rem;}
+.proj-item{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:1.1rem 1.2rem;transition:border-color 0.15s;}
+.proj-item:hover{border-color:var(--border-hover);}
+.proj-item-hdr{display:flex;align-items:flex-start;justify-content:space-between;gap:0.8rem;margin-bottom:0.6rem;}
+.proj-title{font-size:0.88rem;font-weight:700;margin-bottom:0.15rem;}
+.proj-type{font-size:0.7rem;color:var(--gray-light);}
+.status-pill{font-size:0.65rem;font-weight:700;padding:0.2rem 0.65rem;border-radius:100px;letter-spacing:0.04em;text-transform:uppercase;white-space:nowrap;}
+.s-active{background:var(--green-dim);color:var(--green);border:1px solid rgba(184,245,160,0.2);}
+.s-review{background:var(--blue-dim);color:var(--blue);border:1px solid rgba(96,165,250,0.2);}
+.s-complete{background:rgba(255,255,255,0.04);color:var(--gray-light);border:1px solid var(--border);}
+.s-upcoming{background:var(--amber-dim);color:var(--amber);border:1px solid rgba(245,200,66,0.2);}
+.prog-wrap{margin-bottom:0.7rem;}
+.prog-label{display:flex;justify-content:space-between;font-size:0.68rem;color:var(--gray-light);margin-bottom:0.35rem;}
+.prog-track{height:4px;background:rgba(255,255,255,0.06);border-radius:100px;overflow:hidden;}
+.prog-fill{height:100%;border-radius:100px;background:linear-gradient(to right,var(--periwinkle),var(--periwinkle-light));}
+.proj-meta{display:flex;gap:1rem;align-items:center;}
+.proj-meta-item{font-size:0.68rem;color:var(--gray-light);display:flex;align-items:center;gap:0.3rem;}
+.proj-meta-item svg{width:11px;height:11px;stroke:currentColor;fill:none;stroke-width:2;}
+
+.file-list{display:flex;flex-direction:column;gap:0.5rem;margin-bottom:1.2rem;}
+.file-item{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:0.8rem 1rem;display:flex;align-items:center;gap:0.8rem;transition:border-color 0.15s;cursor:pointer;}
+.file-item:hover{border-color:var(--border-hover);}
+.file-icon{width:32px;height:32px;border-radius:7px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:0.65rem;font-weight:700;}
+.file-icon.pdf{background:rgba(248,113,113,0.12);color:var(--red);}
+.file-icon.img{background:var(--periwinkle-dim);color:var(--periwinkle);}
+.file-icon.doc{background:var(--blue-dim);color:var(--blue);}
+.file-icon.zip{background:var(--amber-dim);color:var(--amber);}
+.file-info{flex:1;min-width:0;}
+.file-name{font-size:0.8rem;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.file-meta{font-size:0.68rem;color:var(--gray-light);}
+.file-dl{color:var(--gray-light);transition:color 0.15s;flex-shrink:0;}
+.file-dl:hover{color:var(--periwinkle);}
+.file-dl svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2;}
+
+.msg-list{background:var(--card);border:1px solid var(--border);border-radius:12px;overflow:hidden;margin-bottom:1rem;}
+.msg-thread{padding:0.8rem 1rem;border-bottom:1px solid var(--border);cursor:pointer;transition:background 0.1s;}
+.msg-thread:last-child{border-bottom:none;}
+.msg-thread:hover{background:var(--bg3);}
+.msg-hdr{display:flex;justify-content:space-between;align-items:center;margin-bottom:0.2rem;}
+.msg-sender{font-size:0.8rem;font-weight:700;display:flex;align-items:center;gap:0.4rem;}
+.unread-dot{width:7px;height:7px;border-radius:50%;background:var(--periwinkle);}
+.msg-time{font-size:0.65rem;color:var(--gray-light);}
+.msg-preview{font-size:0.74rem;color:var(--gray-light);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.msg-project{font-size:0.62rem;color:var(--periwinkle);font-weight:600;margin-top:0.15rem;}
+
+.composer{background:var(--card);border:1px solid var(--border);border-radius:12px;overflow:hidden;}
+.composer-hdr{padding:0.75rem 1rem;border-bottom:1px solid var(--border);font-size:0.78rem;font-weight:600;}
+.composer-body{padding:0.8rem 1rem;}
+.msg-textarea{width:100%;background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:0.7rem 0.9rem;color:var(--white);font-family:inherit;font-size:0.82rem;resize:none;outline:none;transition:border-color 0.15s;min-height:80px;}
+.msg-textarea:focus{border-color:var(--periwinkle);}
+.msg-textarea::placeholder{color:var(--gray);}
+.composer-footer{display:flex;justify-content:flex-end;padding:0.6rem 1rem;border-top:1px solid var(--border);gap:0.5rem;}
+
+.r-card{background:var(--card);border:1px solid var(--border);border-radius:12px;overflow:hidden;}
+.r-card-hdr{padding:0.85rem 1.1rem;border-bottom:1px solid var(--border);font-size:0.82rem;font-weight:700;}
+.r-row{display:flex;justify-content:space-between;align-items:center;padding:0.55rem 1.1rem;border-bottom:1px solid var(--border);font-size:0.78rem;}
+.r-row:last-child{border-bottom:none;}
+.r-label{color:var(--gray-light);}
+.r-val{font-weight:600;}
+
+.quick-actions{display:flex;flex-direction:column;gap:0.5rem;}
+.qa-btn{display:flex;align-items:center;gap:0.7rem;padding:0.75rem 0.9rem;background:var(--card);border:1px solid var(--border);border-radius:10px;font-size:0.8rem;font-weight:600;cursor:pointer;transition:all 0.15s;font-family:inherit;color:var(--white);width:100%;text-align:left;}
+.qa-btn:hover{border-color:var(--periwinkle);background:var(--periwinkle-dim);color:var(--periwinkle-light);}
+.qa-btn svg{width:15px;height:15px;stroke:currentColor;fill:none;stroke-width:2;flex-shrink:0;}
+
+.inq-form{background:var(--card);border:1px solid var(--border);border-radius:12px;overflow:hidden;}
+.inq-form-hdr{padding:0.85rem 1.1rem;border-bottom:1px solid var(--border);font-size:0.82rem;font-weight:700;display:flex;align-items:center;gap:0.5rem;}
+.inq-form-body{padding:1rem 1.1rem;display:flex;flex-direction:column;gap:0.7rem;}
+.form-input{width:100%;background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:0.6rem 0.8rem;color:var(--white);font-family:inherit;font-size:0.8rem;outline:none;transition:border-color 0.15s;}
+.form-input:focus{border-color:var(--periwinkle);}
+.form-input::placeholder{color:var(--gray);}
+.form-select{appearance:none;cursor:pointer;}
+
+.act-list{display:flex;flex-direction:column;}
+.act-item{display:flex;gap:0.75rem;padding:0.65rem 0;border-bottom:1px solid var(--border);}
+.act-item:last-child{border-bottom:none;}
+.act-dot{width:8px;height:8px;border-radius:50%;background:var(--periwinkle-dim);border:2px solid var(--periwinkle);flex-shrink:0;margin-top:0.22rem;}
+.act-text{font-size:0.77rem;color:var(--off-white);line-height:1.45;margin-bottom:0.1rem;}
+.act-text strong{color:var(--white);}
+.act-time{font-size:0.65rem;color:var(--gray-light);}
+
+.empty-state{text-align:center;padding:2.5rem 1rem;color:var(--gray-light);font-size:0.82rem;}
+.loading{text-align:center;padding:2rem;color:var(--gray-light);font-size:0.82rem;}
+
+.toast{position:fixed;bottom:1.5rem;right:1.5rem;background:var(--card);border:1px solid var(--border);border-radius:12px;padding:0.85rem 1.2rem;font-size:0.82rem;font-weight:600;z-index:300;transform:translateY(20px);opacity:0;transition:all 0.3s;pointer-events:none;}
+.toast.show{transform:translateY(0);opacity:1;}
+.toast.success{border-color:rgba(184,245,160,0.3);color:var(--green);}
+.toast.error{border-color:rgba(248,113,113,0.3);color:var(--red);}
+
+@keyframes pulse{0%,100%{opacity:1;}50%{opacity:0.4;}}
+
+
+
+</style>
+
+<!-- ══════════════════════════════════════════ -->
+<!-- ══           PORTAL PAGES               ══ -->
+<!-- ══════════════════════════════════════════ -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script>
+// ── GLOBAL SUPABASE INSTANCE (shared across all portal pages) ──
+const _SUPA_URL = 'https://qtzklenumdvcvddrdsjw.supabase.co';
+const _SUPA_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InF0emtsZW51bWR2Y3ZkZHJkc2p3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODM5NjIxNzUsImV4cCI6MjA5OTUzODE3NX0.wxFl3MHslwpS0-Ggkai87r4xYElhqfiBwV2UFCiVX18';
+const _SB = window.supabase.createClient(_SUPA_URL, _SUPA_KEY);
+</script>
+
+
+
+
+<!-- LOGIN PAGE -->
+<div id="portal-login" class="portal-page">
+
+
+<div class="login-wrap">
+  <div class="login-logo">
+    <div class="login-logo-mark">a.</div>
+    <div class="login-logo-name">asklana<span>.</span></div>
+    <div class="login-logo-sub">Client Portal</div>
+  </div>
+
+  <div class="login-card">
+    <div class="login-title">Welcome back.</div>
+    <div class="login-sub">Sign in to access your projects and messages.</div>
+
+    <div class="form-group">
+      <label class="form-label">Email</label>
+      <input class="form-input" type="email" id="email" placeholder="you@company.com" autocomplete="email">
+    </div>
+    <div class="form-group">
+      <label class="form-label">Password</label>
+      <input class="form-input" type="password" id="password" placeholder="••••••••" autocomplete="current-password">
+    </div>
+
+    <button class="login-btn" id="loginBtn" onclick="handleLogin()">
+      <span id="loginText">Sign In</span>
+      <div class="spinner" id="spinner"></div>
+    </button>
+
+    <div class="error-msg" id="errorMsg"></div>
+  </div>
+
+  <div class="login-footer">
+    <a href="#" onclick="showPortal('main'); return false;">← Back to asklana.co</a>
+    &nbsp;·&nbsp;
+    Need access? <a href="mailto:lana@asklana.co">Contact Lana</a>
+  </div>
+</div>
+
+<script>
+// If already logged in, redirect - called when login portal opens
+async function initLoginPortal() {
+  const { data: { session } } = await _SB.auth.getSession();
+  if (session) await redirect(session.user);
+}
+
+async function redirect(user) {
+  const { data: profile } = await _SB
+    .from('profiles')
+    .select('role')
+    .eq('id', user.id)
+    .single();
+  if (profile?.role === 'owner') {
+    showPortal('owner');
+  } else {
+    showPortal('client');
+  }
+}
+
+async function handleLogin() {
+  const email = document.getElementById('email').value.trim();
+  const password = document.getElementById('password').value;
+  const btn = document.getElementById('loginBtn');
+  const text = document.getElementById('loginText');
+  const spinner = document.getElementById('spinner');
+  const errorMsg = document.getElementById('errorMsg');
+
+  if (!email || !password) {
+    showError('Please enter your email and password.');
+    return;
+  }
+
+  btn.disabled = true;
+  text.style.display = 'none';
+  spinner.style.display = 'block';
+  errorMsg.style.display = 'none';
+
+  const { data, error } = await _SB.auth.signInWithPassword({ email, password });
+
+  if (error) {
+    showError('Incorrect email or password. Need access? Email lana@asklana.co');
+    btn.disabled = false;
+    text.style.display = 'block';
+    spinner.style.display = 'none';
+    return;
+  }
+
+  await redirect(data.user);
+}
+
+function showError(msg) {
+  const el = document.getElementById('errorMsg');
+  el.textContent = msg;
+  el.style.display = 'block';
+}
+
+// Enter key support
+document.addEventListener('keydown', e => {
+  if (e.key === 'Enter') handleLogin();
+});
+</script>
+
+</div>
+
+<!-- OWNER DASHBOARD -->
+<div id="portal-owner" class="portal-page" style="overflow-y:auto;">
+
+
+<!-- SIDEBAR -->
+<aside class="sidebar">
+  <div class="sidebar-logo">
+    <div class="logo-mark">a.</div>
+    <div class="logo-text">asklana<span>.</span></div>
+    <div class="owner-badge">Owner</div>
+  </div>
+  <div class="sidebar-user">
+    <div class="user-av">LJ</div>
+    <div>
+      <div class="user-name">Lana Johnson</div>
+      <div class="user-role">Owner · Admin</div>
+    </div>
+  </div>
+  <nav class="sidebar-nav">
+    <div class="nav-label">Overview</div>
+    <button class="nav-item active" onclick="switchView('dashboard', this)">
+      <span class="nav-icon"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg></span>
+      Dashboard
+    </button>
+    <div class="nav-label" style="margin-top:0.5rem;">Clients</div>
+    <button class="nav-item" onclick="switchView('clients', this)">
+      <span class="nav-icon"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg></span>
+      All Clients
+      <span class="nav-badge" id="clientCount">0</span>
+    </button>
+    <button class="nav-item" onclick="openAddClient()">
+      <span class="nav-icon"><svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></span>
+      Add Client
+    </button>
+    <div class="nav-label" style="margin-top:0.5rem;">Projects</div>
+    <button class="nav-item" onclick="switchView('projects', this)">
+      <span class="nav-icon"><svg viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg></span>
+      All Projects
+    </button>
+    <div class="nav-label" style="margin-top:0.5rem;">Communication</div>
+    <button class="nav-item" onclick="switchView('messages', this)">
+      <span class="nav-icon"><svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg></span>
+      Messages
+      <span class="nav-badge" id="msgCount">0</span>
+    </button>
+    <button class="nav-item" onclick="switchView('inquiries', this)">
+      <span class="nav-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg></span>
+      Inquiries
+      <span class="nav-badge red" id="inqCount">0</span>
+    </button>
+  </nav>
+  <div class="sidebar-footer">
+    <button class="signout-btn" onclick="signOut()">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+      Sign Out
+    </button>
+  </div>
+</aside>
+
+<!-- MAIN -->
+<div class="main">
+  <div class="topbar">
+    <div>
+      <div class="topbar-title" id="topbarTitle">Owner Dashboard</div>
+      <div class="topbar-sub" id="topbarSub">Loading...</div>
+    </div>
+    <div class="topbar-right">
+      <button class="btn" onclick="openAddClient()">+ Add Client</button>
+      <button class="btn btn-primary" onclick="openAddProject()">+ New Project</button>
+    </div>
+  </div>
+
+  <div class="page">
+
+    <!-- DASHBOARD VIEW -->
+    <div class="view active" id="view-dashboard">
+      <div class="stat-row">
+        <div class="stat-card">
+          <div class="stat-icon purple"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/></svg></div>
+          <div><div class="stat-num" id="s-clients">-</div><div class="stat-label">Active Clients</div></div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon green"><svg viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg></div>
+          <div><div class="stat-num" id="s-projects">-</div><div class="stat-label">Active Projects</div></div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon amber"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg></div>
+          <div><div class="stat-num" id="s-inquiries">-</div><div class="stat-label">New Inquiries</div></div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon blue"><svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg></div>
+          <div><div class="stat-num" id="s-messages">-</div><div class="stat-label">Unread Messages</div></div>
+        </div>
+      </div>
+      <div class="grid-2">
+        <div>
+          <div class="section-hdr"><h3>Recent Projects</h3><button class="btn btn-sm" onclick="openAddProject()">+ New</button></div>
+          <div class="proj-cards" id="dash-projects"><div class="loading">Loading projects...</div></div>
+          <div class="section-hdr"><h3>Recent Messages</h3></div>
+          <div class="msg-list" id="dash-messages"><div class="loading">Loading messages...</div></div>
+        </div>
+        <div class="right-col">
+          <div>
+            <div class="section-hdr"><h3>At a Glance</h3></div>
+            <div class="mini-stats">
+              <div class="mini-stat"><div class="mini-num" id="mg-clients">-</div><div class="mini-label">Clients</div></div>
+              <div class="mini-stat"><div class="mini-num" id="mg-projects">-</div><div class="mini-label">Projects</div></div>
+              <div class="mini-stat"><div class="mini-num" id="mg-files">-</div><div class="mini-label">Files Shared</div></div>
+              <div class="mini-stat"><div class="mini-num" id="mg-inq">-</div><div class="mini-label">New Inquiries</div></div>
+            </div>
+          </div>
+          <div class="section-hdr" style="margin-top:0.5rem;"><h3>New Inquiries</h3></div>
+          <div class="inq-list" id="dash-inquiries"><div class="loading">Loading...</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CLIENTS VIEW -->
+    <div class="view" id="view-clients">
+      <div class="section-hdr">
+        <h3>All Clients</h3>
+        <button class="btn btn-primary btn-sm" onclick="openAddClient()">+ Add Client</button>
+      </div>
+      <div class="data-table">
+        <div class="table-head client-cols">
+          <div>Client</div><div>Service</div><div>Projects</div><div>Status</div><div></div>
+        </div>
+        <div id="clients-list"><div class="loading">Loading clients...</div></div>
+      </div>
+    </div>
+
+    <!-- PROJECTS VIEW -->
+    <div class="view" id="view-projects">
+      <div class="section-hdr">
+        <h3>All Projects</h3>
+        <button class="btn btn-primary btn-sm" onclick="openAddProject()">+ New Project</button>
+      </div>
+      <div class="proj-cards" id="all-projects"><div class="loading">Loading projects...</div></div>
+    </div>
+
+    <!-- MESSAGES VIEW -->
+    <div class="view" id="view-messages">
+      <div class="section-hdr"><h3>Messages</h3></div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.2rem;">
+        <div>
+          <div class="msg-list" id="all-messages"><div class="loading">Loading...</div></div>
+        </div>
+        <div class="composer">
+          <div class="composer-hdr">✉ Send a Message</div>
+          <div class="composer-body">
+            <div class="form-group">
+              <label class="form-label">To (Client)</label>
+              <select class="form-input form-select" id="msg-to">
+                <option value="">Select client...</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Project (optional)</label>
+              <select class="form-input form-select" id="msg-project">
+                <option value="">No project</option>
+              </select>
+            </div>
+            <textarea class="msg-textarea" id="msg-body" placeholder="Type your message..."></textarea>
+          </div>
+          <div class="composer-footer">
+            <button class="btn btn-primary btn-sm" onclick="sendMessage()">Send Message</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- INQUIRIES VIEW -->
+    <div class="view" id="view-inquiries">
+      <div class="section-hdr"><h3>All Inquiries</h3></div>
+      <div class="inq-list" id="all-inquiries"><div class="loading">Loading inquiries...</div></div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ADD CLIENT MODAL -->
+<div class="modal-overlay" id="modal-client">
+  <div class="modal">
+    <div class="modal-title">Add New Client</div>
+    <div class="modal-sub">Creates a portal account — you set their password here.</div>
+    <div class="form-group">
+      <label class="form-label">Full Name</label>
+      <input class="form-input" id="nc-name" placeholder="Client's full name">
+    </div>
+    <div class="form-group">
+      <label class="form-label">Email</label>
+      <input class="form-input" id="nc-email" type="email" placeholder="client@company.com">
+    </div>
+    <div class="form-group">
+      <label class="form-label">Company (optional)</label>
+      <input class="form-input" id="nc-company" placeholder="Company name">
+    </div>
+    <div class="form-group">
+      <label class="form-label">Service Type</label>
+      <select class="form-input form-select" id="nc-service">
+        <option value="">Select service...</option>
+        <option>Operational Systems</option>
+        <option>Web Development</option>
+        <option>App Development</option>
+        <option>Brand Strategy</option>
+        <option>SEO & Content</option>
+        <option>Paid Advertising</option>
+        <option>Creative Outsourcing</option>
+        <option>Full Strategy</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Temporary Password</label>
+      <input class="form-input" id="nc-password" type="text" placeholder="Set their login password">
+    </div>
+    <div class="modal-footer">
+      <button class="btn" onclick="closeModal('modal-client')">Cancel</button>
+      <button class="btn btn-primary" id="createClientBtn" onclick="createClient()">Create Client Account</button>
+    </div>
+  </div>
+</div>
+
+<!-- ADD PROJECT MODAL -->
+<div class="modal-overlay" id="modal-project">
+  <div class="modal">
+    <div class="modal-title">New Project</div>
+    <div class="modal-sub">Create a project and assign it to a client.</div>
+    <div class="form-group">
+      <label class="form-label">Project Title</label>
+      <input class="form-input" id="np-title" placeholder="e.g. Brand Identity Package">
+    </div>
+    <div class="form-group">
+      <label class="form-label">Client</label>
+      <select class="form-input form-select" id="np-client">
+        <option value="">Select client...</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Service Type</label>
+      <select class="form-input form-select" id="np-service">
+        <option value="">Select service...</option>
+        <option>Operational Systems</option>
+        <option>Web Development</option>
+        <option>App Development</option>
+        <option>Brand Strategy</option>
+        <option>SEO & Content</option>
+        <option>Paid Advertising</option>
+        <option>Creative Outsourcing</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Description</label>
+      <textarea class="form-input" id="np-desc" rows="3" placeholder="Project description..."></textarea>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Due Date</label>
+      <input class="form-input" id="np-due" type="date">
+    </div>
+    <div class="modal-footer">
+      <button class="btn" onclick="closeModal('modal-project')">Cancel</button>
+      <button class="btn btn-primary" id="createProjBtn" onclick="createProject()">Create Project</button>
+    </div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<script>
+let currentUser = null;
+let allClients = [];
+let allProjects = [];
+
+// ── INIT ──
+async function initOwnerDashboard() {
+  const { data: { session } } = await _SB.auth.getSession();
+  if (!session) { showPortal('login'); return; }
+
+  const { data: profile } = await _SB.from('profiles').select('*').eq('id', session.user.id).single();
+  if (!profile || profile.role !== 'owner') { showPortal('login'); return; }
+
+  currentUser = { ...session.user, ...profile };
+  document.querySelector('#portal-owner .user-name').textContent = profile.full_name || 'Lana Johnson';
+
+  const d = new Date();
+  document.getElementById('topbarSub').textContent = d.toLocaleDateString('en-US', {weekday:'long',year:'numeric',month:'long',day:'numeric'});
+
+  await loadAll();
+}
+
+async function loadAll() {
+  await Promise.all([loadClients(), loadProjects(), loadMessages(), loadInquiries(), loadFiles()]);
+  renderDashboard();
+}
+
+async function loadClients() {
+  const { data } = await _SB.from('profiles').select('*').eq('role','client').order('created_at', {ascending:false});
+  allClients = data || [];
+  document.getElementById('clientCount').textContent = allClients.length;
+  document.getElementById('s-clients').textContent = allClients.length;
+  document.getElementById('mg-clients').textContent = allClients.length;
+  populateClientSelects();
+}
+
+async function loadProjects() {
+  const { data } = await _SB.from('projects').select('*, profiles(full_name, email)').order('created_at',{ascending:false});
+  allProjects = data || [];
+  const active = allProjects.filter(p => p.status === 'active' || p.status === 'review').length;
+  document.getElementById('s-projects').textContent = active;
+  document.getElementById('mg-projects').textContent = allProjects.length;
+  populateProjectSelect();
+}
+
+async function loadMessages() {
+  const { data } = await _SB.from('messages').select('*, sender:profiles!sender_id(full_name), recipient:profiles!recipient_id(full_name), project:projects(title)').order('created_at',{ascending:false}).limit(20);
+  const unread = (data||[]).filter(m => !m.read && m.sender_id !== currentUser.id).length;
+  document.getElementById('s-messages').textContent = unread;
+  document.getElementById('msgCount').textContent = unread || '';
+  renderMessages(data || []);
+}
+
+async function loadInquiries() {
+  const { data } = await _SB.from('inquiries').select('*').order('created_at',{ascending:false});
+  const newInq = (data||[]).filter(i => i.status === 'new').length;
+  document.getElementById('s-inquiries').textContent = newInq;
+  document.getElementById('inqCount').textContent = newInq || '';
+  document.getElementById('mg-inq').textContent = newInq;
+  renderInquiries(data || []);
+}
+
+async function loadFiles() {
+  const { data } = await _SB.from('files').select('id');
+  document.getElementById('mg-files').textContent = (data||[]).length;
+}
+
+// ── RENDER ──
+function renderDashboard() {
+  // Projects
+  const projEl = document.getElementById('dash-projects');
+  const recent = allProjects.slice(0,3);
+  projEl.innerHTML = recent.length ? recent.map(p => projCard(p)).join('') : '<div class="empty-state">No projects yet. Create one to get started.</div>';
+
+  // All projects view
+  const allProjEl = document.getElementById('all-projects');
+  allProjEl.innerHTML = allProjects.length ? allProjects.map(p => projCard(p)).join('') : '<div class="empty-state">No projects yet.</div>';
+
+  // Clients
+  const clientsEl = document.getElementById('clients-list');
+  clientsEl.innerHTML = allClients.length ? allClients.map(c => clientRow(c)).join('') : '<div class="empty-state">No clients yet. Add one to get started.</div>';
+}
+
+function projCard(p) {
+  const statusClass = {active:'s-active',review:'s-review',complete:'s-complete',upcoming:'s-pending'}[p.status] || 's-active';
+  const statusLabel = {active:'Active',review:'In Review',complete:'Complete',upcoming:'Upcoming'}[p.status] || p.status;
+  const due = p.due_date ? new Date(p.due_date).toLocaleDateString('en-US',{month:'short',day:'numeric'}) : 'No due date';
+  return `<div class="proj-card">
+    <div class="proj-card-hdr">
+      <div>
+        <div class="proj-title">${p.title}</div>
+        <div class="proj-client">→ ${p.profiles?.full_name || 'Unknown client'}</div>
+      </div>
+      <div class="proj-card-actions">
+        <span class="status-pill ${statusClass}">${statusLabel}</span>
+        <select class="btn btn-sm" style="border:1px solid var(--border);background:var(--bg3);color:var(--white);cursor:pointer;" onchange="updateProjectStatus('${p.id}', this.value)">
+          <option value="active" ${p.status==='active'?'selected':''}>Active</option>
+          <option value="review" ${p.status==='review'?'selected':''}>In Review</option>
+          <option value="complete" ${p.status==='complete'?'selected':''}>Complete</option>
+          <option value="upcoming" ${p.status==='upcoming'?'selected':''}>Upcoming</option>
+        </select>
+      </div>
+    </div>
+    <div class="prog-row">
+      <div class="prog-track"><div class="prog-fill" style="width:${p.progress||0}%"></div></div>
+      <div class="prog-pct">${p.progress||0}%</div>
+    </div>
+    <div class="proj-meta">
+      <span class="proj-meta-tag"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg> Due ${due}</span>
+      <input type="range" min="0" max="100" value="${p.progress||0}" style="flex:1;accent-color:var(--periwinkle);cursor:pointer;" onchange="updateProgress('${p.id}', this.value)">
+    </div>
+  </div>`;
+}
+
+function clientRow(c) {
+  const projCount = allProjects.filter(p => p.client_id === c.id).length;
+  const initials = (c.full_name||'?').split(' ').map(w=>w[0]).join('').toUpperCase().slice(0,2);
+  return `<div class="table-row client-cols">
+    <div class="cell-name">
+      <div class="cell-av">${initials}</div>
+      <div>
+        <div class="cell-main">${c.full_name || 'Unnamed'}</div>
+        <div class="cell-sub">${c.email}</div>
+      </div>
+    </div>
+    <div><div class="cell-text">${c.company || '—'}</div></div>
+    <div><div class="cell-text">${projCount} project${projCount!==1?'s':''}</div></div>
+    <div><span class="status-pill s-active">Active</span></div>
+    <div class="row-actions">
+      <button class="icon-btn" title="Message" onclick="openMessageTo('${c.id}','${c.full_name}')"><svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg></button>
+      <button class="icon-btn" title="Add Project" onclick="openAddProjectFor('${c.id}')"><svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></button>
+    </div>
+  </div>`;
+}
+
+function renderMessages(msgs) {
+  const dash = document.getElementById('dash-messages');
+  const all = document.getElementById('all-messages');
+  if (!msgs.length) {
+    const empty = '<div class="empty-state">No messages yet.</div>';
+    dash.innerHTML = empty; all.innerHTML = empty; return;
+  }
+  const html = msgs.slice(0,8).map(m => `<div class="msg-thread">
+    <div class="msg-thread-hdr">
+      <div class="msg-sender">${!m.read && m.sender_id !== currentUser.id ? '<span class="unread-dot"></span>' : ''}${m.sender?.full_name || 'Client'}</div>
+      <div class="msg-time">${timeAgo(m.created_at)}</div>
+    </div>
+    <div class="msg-preview">${m.body}</div>
+    ${m.project ? `<div class="msg-project">${m.project.title}</div>` : ''}
+  </div>`).join('');
+  dash.innerHTML = html;
+  all.innerHTML = msgs.map(m => `<div class="msg-thread">
+    <div class="msg-thread-hdr">
+      <div class="msg-sender">${!m.read && m.sender_id !== currentUser.id ? '<span class="unread-dot"></span>' : ''}${m.sender?.full_name || 'Client'} → ${m.recipient?.full_name || 'You'}</div>
+      <div class="msg-time">${timeAgo(m.created_at)}</div>
+    </div>
+    <div class="msg-preview">${m.body}</div>
+    ${m.project ? `<div class="msg-project">${m.project.title}</div>` : ''}
+  </div>`).join('');
+}
+
+function renderInquiries(inqs) {
+  const dash = document.getElementById('dash-inquiries');
+  const all = document.getElementById('all-inquiries');
+  if (!inqs.length) {
+    dash.innerHTML = '<div class="empty-state">No inquiries yet.</div>';
+    all.innerHTML = '<div class="empty-state">No inquiries yet.</div>';
+    return;
+  }
+  const html = (items) => items.map(i => `<div class="inq-card">
+    <div class="inq-hdr">
+      <div class="inq-from"><span style="width:7px;height:7px;border-radius:50%;background:${i.status==='new'?'var(--periwinkle)':'var(--gray)'};display:inline-block;"></span>${i.name || i.email || 'Anonymous'}</div>
+      <div class="inq-time">${timeAgo(i.created_at)}</div>
+    </div>
+    ${i.service_type ? `<div style="margin-bottom:0.3rem;"><span class="status-pill s-new">${i.service_type}</span></div>` : ''}
+    <div class="inq-text">${i.message}</div>
+    <div class="inq-actions">
+      <button class="btn btn-primary btn-sm" onclick="replyToInquiry('${i.email}')">Reply</button>
+      <button class="btn btn-sm" onclick="markInquiryReplied('${i.id}')">Mark Replied</button>
+    </div>
+  </div>`).join('');
+  dash.innerHTML = html(inqs.slice(0,3));
+  all.innerHTML = html(inqs);
+}
+
+function populateClientSelects() {
+  const opts = allClients.map(c => `<option value="${c.id}">${c.full_name || c.email}</option>`).join('');
+  ['np-client','msg-to'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.innerHTML = `<option value="">Select client...</option>${opts}`;
+  });
+}
+
+function populateProjectSelect() {
+  const el = document.getElementById('msg-project');
+  if (el) el.innerHTML = `<option value="">No project</option>` + allProjects.map(p => `<option value="${p.id}">${p.title}</option>`).join('');
+}
+
+// ── ACTIONS ──
+async function createClient() {
+  const name = document.getElementById('nc-name').value.trim();
+  const email = document.getElementById('nc-email').value.trim();
+  const company = document.getElementById('nc-company').value.trim();
+  const service = document.getElementById('nc-service').value;
+  const password = document.getElementById('nc-password').value;
+
+  if (!name || !email || !password) { showToast('Please fill in name, email, and password.', 'error'); return; }
+
+  const btn = document.getElementById('createClientBtn');
+  btn.disabled = true; btn.textContent = 'Creating...';
+
+  try {
+    // Call Edge Function to create auth user (requires service role key - safe server-side)
+    const res = await fetch('https://qtzklenumdvcvddrdsjw.supabase.co/functions/v1/create-client', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${_SUPA_KEY}`
+      },
+      body: JSON.stringify({ email, password, full_name: name, company })
+    });
+
+    const result = await res.json();
+
+    if (result.error) {
+      showToast('Error: ' + result.error, 'error');
+      btn.disabled = false; btn.textContent = 'Create Client Account';
+      return;
+    }
+
+    showToast(`✓ Account created for ${name} — they can now log in.`, 'success');
+    closeModal('modal-client');
+    ['nc-name','nc-email','nc-company','nc-password'].forEach(id => document.getElementById(id).value = '');
+    await loadClients();
+
+  } catch(e) {
+    showToast('Network error — check Edge Function is deployed.', 'error');
+  }
+
+  btn.disabled = false; btn.textContent = 'Create Client Account';
+}
+
+async function createProject() {
+  const title = document.getElementById('np-title').value.trim();
+  const clientId = document.getElementById('np-client').value;
+  const service = document.getElementById('np-service').value;
+  const desc = document.getElementById('np-desc').value.trim();
+  const due = document.getElementById('np-due').value;
+
+  if (!title || !clientId) { showToast('Please enter a title and select a client.', 'error'); return; }
+
+  const btn = document.getElementById('createProjBtn');
+  btn.disabled = true; btn.textContent = 'Creating...';
+
+  const { error } = await _SB.from('projects').insert({
+    title, client_id: clientId, service_type: service,
+    description: desc, due_date: due || null, status: 'active', progress: 0
+  });
+
+  if (error) { showToast('Error creating project: ' + error.message, 'error'); }
+  else { showToast(`✓ Project "${title}" created`, 'success'); closeModal('modal-project'); }
+
+  btn.disabled = false; btn.textContent = 'Create Project';
+  await loadProjects();
+  renderDashboard();
+}
+
+async function updateProjectStatus(id, status) {
+  await _SB.from('projects').update({ status }).eq('id', id);
+  showToast('Status updated', 'success');
+  await loadProjects(); renderDashboard();
+}
+
+async function updateProgress(id, progress) {
+  await _SB.from('projects').update({ progress: parseInt(progress) }).eq('id', id);
+  showToast('Progress updated', 'success');
+}
+
+async function sendMessage() {
+  const to = document.getElementById('msg-to').value;
+  const body = document.getElementById('msg-body').value.trim();
+  const projectId = document.getElementById('msg-project').value;
+
+  if (!to || !body) { showToast('Select a client and type a message.', 'error'); return; }
+
+  const { error } = await _SB.from('messages').insert({
+    sender_id: currentUser.id,
+    recipient_id: to,
+    body,
+    project_id: projectId || null
+  });
+
+  if (error) { showToast('Error sending: ' + error.message, 'error'); }
+  else {
+    showToast('✓ Message sent', 'success');
+    document.getElementById('msg-body').value = '';
+    await loadMessages();
+  }
+}
+
+async function markInquiryReplied(id) {
+  await _SB.from('inquiries').update({ status: 'replied' }).eq('id', id);
+  showToast('Marked as replied', 'success');
+  await loadInquiries();
+}
+
+function replyToInquiry(email) {
+  window.location.href = `mailto:${email}`;
+}
+
+// ── UI HELPERS ──
+function switchView(name, el) {
+  document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  document.getElementById('view-' + name).classList.add('active');
+  if (el) el.classList.add('active');
+  const titles = {dashboard:'Owner Dashboard',clients:'All Clients',projects:'All Projects',messages:'Messages',inquiries:'Inquiries'};
+  document.getElementById('topbarTitle').textContent = titles[name] || name;
+}
+
+function openAddClient() { document.getElementById('modal-client').classList.add('open'); }
+function openAddProject() {
+  populateClientSelects();
+  document.getElementById('modal-project').classList.add('open');
+}
+function openAddProjectFor(clientId) {
+  populateClientSelects();
+  document.getElementById('np-client').value = clientId;
+  document.getElementById('modal-project').classList.add('open');
+}
+function openMessageTo(clientId, name) {
+  switchView('messages', document.querySelector('[onclick="switchView(\'messages\', this)"]'));
+  document.getElementById('msg-to').value = clientId;
+}
+function closeModal(id) { document.getElementById(id).classList.remove('open'); }
+
+// Close modal on overlay click
+document.querySelectorAll('.modal-overlay').forEach(el => {
+  el.addEventListener('click', e => { if (e.target === el) el.classList.remove('open'); });
+});
+
+function showToast(msg, type = 'success') {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.className = `toast ${type} show`;
+  setTimeout(() => t.classList.remove('show'), 3000);
+}
+
+function timeAgo(dateStr) {
+  const d = new Date(dateStr);
+  const now = new Date();
+  const diff = Math.floor((now - d) / 1000);
+  if (diff < 60) return 'just now';
+  if (diff < 3600) return Math.floor(diff/60) + 'm ago';
+  if (diff < 86400) return Math.floor(diff/3600) + 'h ago';
+  return d.toLocaleDateString('en-US',{month:'short',day:'numeric'});
+}
+
+async function signOut() {
+  await _SB.auth.signOut();
+  showPortal('login');
+}
+</script>
+
+</div>
+
+<!-- CLIENT DASHBOARD -->
+<div id="portal-client" class="portal-page" style="overflow-y:auto;">
+
+
+<aside class="sidebar">
+  <div class="sidebar-logo">
+    <div class="logo-mark">a.</div>
+    <div class="logo-text">asklana<span>.</span></div>
+  </div>
+  <div class="sidebar-user">
+    <div class="user-av" id="userAv">?</div>
+    <div>
+      <div class="user-name" id="userName">Loading...</div>
+      <div class="user-role">Client Portal</div>
+    </div>
+  </div>
+  <nav class="sidebar-nav">
+    <div class="nav-label">Overview</div>
+    <button class="nav-item active" onclick="switchView('dashboard', this)">
+      <span class="nav-icon"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg></span>
+      Dashboard
+    </button>
+    <button class="nav-item" onclick="switchView('projects', this)">
+      <span class="nav-icon"><svg viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg></span>
+      My Projects
+      <span class="nav-badge" id="projBadge" style="display:none;">0</span>
+    </button>
+    <button class="nav-item" onclick="switchView('files', this)">
+      <span class="nav-icon"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></span>
+      Files & Deliverables
+    </button>
+    <div class="nav-label" style="margin-top:0.5rem;">Communication</div>
+    <button class="nav-item" onclick="switchView('messages', this)">
+      <span class="nav-icon"><svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg></span>
+      Messages
+      <span class="nav-badge" id="msgBadge" style="display:none;">0</span>
+    </button>
+    <button class="nav-item" onclick="switchView('inquiry', this)">
+      <span class="nav-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg></span>
+      New Inquiry
+    </button>
+  </nav>
+  <div class="sidebar-footer">
+    <button class="signout-btn" onclick="signOut()">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+      Sign Out
+    </button>
+  </div>
+</aside>
+
+<div class="main">
+  <div class="topbar">
+    <div>
+      <div class="topbar-title" id="topbarGreeting">Loading...</div>
+      <div class="topbar-sub">Here's what's happening with your projects.</div>
+    </div>
+    <div>
+      <button class="btn btn-primary btn-sm" onclick="switchView('inquiry', null)">+ New Inquiry</button>
+    </div>
+  </div>
+
+  <div class="page">
+
+    <!-- DASHBOARD -->
+    <div class="view active" id="view-dashboard">
+      <div class="welcome-banner">
+        <div class="welcome-text">
+          <h2>Welcome to your Client Portal</h2>
+          <p>Track your projects, download deliverables, and message Lana — all in one place.</p>
+        </div>
+        <div class="welcome-status"><span class="status-dot"></span><span id="activeCount">Loading...</span></div>
+      </div>
+      <div class="stat-row">
+        <div class="stat-card">
+          <div class="stat-icon purple"><svg viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg></div>
+          <div><div class="stat-num" id="sc-projects">-</div><div class="stat-label">Active Projects</div></div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon green"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></div>
+          <div><div class="stat-num" id="sc-files">-</div><div class="stat-label">Files Available</div></div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon amber"><svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg></div>
+          <div><div class="stat-num" id="sc-messages">-</div><div class="stat-label">Unread Messages</div></div>
+        </div>
+      </div>
+      <div class="grid-2">
+        <div>
+          <div class="section-hdr"><h3>Your Projects</h3></div>
+          <div class="proj-list" id="dash-projects"><div class="loading">Loading...</div></div>
+          <div class="section-hdr"><h3>Messages from Lana</h3></div>
+          <div class="msg-list" id="dash-messages"><div class="loading">Loading...</div></div>
+          <div class="composer">
+            <div class="composer-hdr">✉ Send a Message to Lana</div>
+            <div class="composer-body">
+              <textarea class="msg-textarea" id="client-msg" placeholder="Type your message here..."></textarea>
+            </div>
+            <div class="composer-footer">
+              <button class="btn btn-sm">Attach File</button>
+              <button class="btn btn-primary btn-sm" onclick="sendMessage()">Send Message</button>
+            </div>
+          </div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:1.2rem;">
+          <div class="r-card">
+            <div class="r-card-hdr">Account Summary</div>
+            <div class="r-row"><span class="r-label">Account Manager</span><span class="r-val" style="color:var(--periwinkle-light);">Lana Johnson</span></div>
+            <div class="r-row"><span class="r-label">Active Projects</span><span class="r-val" id="ra-projects">-</span></div>
+            <div class="r-row"><span class="r-label">Files Available</span><span class="r-val" id="ra-files">-</span></div>
+            <div class="r-row"><span class="r-label">Contact</span><span class="r-val"><a href="mailto:lana@asklana.co" style="color:var(--periwinkle-light);text-decoration:none;">lana@asklana.co</a></span></div>
+          </div>
+          <div class="section-hdr"><h3>Quick Actions</h3></div>
+          <div class="quick-actions">
+            <button class="qa-btn" onclick="switchView('inquiry', null)">
+              <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+              Submit a New Inquiry
+            </button>
+            <button class="qa-btn" onclick="switchView('files', null)">
+              <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+              View All Files
+            </button>
+            <button class="qa-btn" onclick="switchView('messages', null)">
+              <svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+              Open Messages
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PROJECTS -->
+    <div class="view" id="view-projects">
+      <div class="section-hdr"><h3>My Projects</h3></div>
+      <div class="proj-list" id="all-projects"><div class="loading">Loading...</div></div>
+    </div>
+
+    <!-- FILES -->
+    <div class="view" id="view-files">
+      <div class="section-hdr"><h3>Files & Deliverables</h3></div>
+      <div class="file-list" id="all-files"><div class="loading">Loading...</div></div>
+    </div>
+
+    <!-- MESSAGES -->
+    <div class="view" id="view-messages">
+      <div class="section-hdr"><h3>Messages</h3></div>
+      <div class="msg-list" id="all-messages"><div class="loading">Loading...</div></div>
+      <div class="composer" style="margin-top:1rem;">
+        <div class="composer-hdr">✉ Send a Message</div>
+        <div class="composer-body">
+          <textarea class="msg-textarea" id="client-msg-2" placeholder="Type your message here..."></textarea>
+        </div>
+        <div class="composer-footer">
+          <button class="btn btn-primary btn-sm" onclick="sendMessage2()">Send Message</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- INQUIRY -->
+    <div class="view" id="view-inquiry">
+      <div class="section-hdr"><h3>Submit an Inquiry</h3></div>
+      <div style="max-width:560px;">
+        <div class="inq-form">
+          <div class="inq-form-hdr">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--periwinkle)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+            New Inquiry to Lana
+          </div>
+          <div class="inq-form-body">
+            <select class="form-input form-select" id="inq-service">
+              <option value="" disabled selected>What do you need?</option>
+              <option>Add to Existing Project</option>
+              <option>New Project Request</option>
+              <option>General Question</option>
+              <option>Feedback on Deliverable</option>
+            </select>
+            <textarea class="form-input" rows="5" id="inq-msg" placeholder="Describe what you're looking for..."></textarea>
+            <button class="btn btn-primary" style="width:100%;padding:0.65rem;font-size:0.88rem;" onclick="submitInquiry()">Submit Inquiry</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+let currentUser = null;
+let lanaId = null;
+let myProjects = [];
+let myFiles = [];
+let myMessages = [];
+
+async function initClientDashboard() {
+  const { data: { session } } = await _SB.auth.getSession();
+  if (!session) { showPortal('login'); return; }
+
+  const { data: profile } = await _SB.from('profiles').select('*').eq('id', session.user.id).single();
+  if (!profile || profile.role === 'owner') { showPortal('login'); return; }
+
+  currentUser = { ...session.user, ...profile };
+  const initials = (profile.full_name || '?').split(' ').map(w=>w[0]).join('').toUpperCase().slice(0,2);
+  document.getElementById('userAv').textContent = initials;
+  document.getElementById('userName').textContent = profile.full_name || session.user.email;
+  document.getElementById('topbarGreeting').textContent = `Good ${getTimeOfDay()}, ${(profile.full_name||'').split(' ')[0] || 'there'} 👋`;
+
+  // Get Lana's profile for messaging
+  const { data: lana } = await _SB.from('profiles').select('id').eq('role','owner').single();
+  lanaId = lana?.id;
+
+  await loadAll();
+}
+
+async function loadAll() {
+  await Promise.all([loadProjects(), loadFiles(), loadMessages()]);
+}
+
+async function loadProjects() {
+  const { data } = await _SB.from('projects').select('*').eq('client_id', currentUser.id).order('created_at',{ascending:false});
+  myProjects = data || [];
+  const active = myProjects.filter(p => p.status === 'active' || p.status === 'review').length;
+  document.getElementById('sc-projects').textContent = active;
+  document.getElementById('ra-projects').textContent = active;
+  document.getElementById('activeCount').textContent = `${active} Active Project${active!==1?'s':''}`;
+  if (active > 0) { document.getElementById('projBadge').style.display='block'; document.getElementById('projBadge').textContent=active; }
+  renderProjects();
+}
+
+async function loadFiles() {
+  const projIds = myProjects.map(p => p.id);
+  if (!projIds.length) { myFiles = []; document.getElementById('sc-files').textContent = 0; document.getElementById('ra-files').textContent = '0 files'; return; }
+  const { data } = await _SB.from('files').select('*, projects(title)').in('project_id', projIds).order('created_at',{ascending:false});
+  myFiles = data || [];
+  document.getElementById('sc-files').textContent = myFiles.length;
+  document.getElementById('ra-files').textContent = myFiles.length + ' files';
+  renderFiles();
+}
+
+async function loadMessages() {
+  const { data } = await _SB.from('messages').select('*, sender:profiles!sender_id(full_name), project:projects(title)')
+    .or(`recipient_id.eq.${currentUser.id},sender_id.eq.${currentUser.id}`)
+    .order('created_at',{ascending:false}).limit(20);
+  myMessages = data || [];
+  const unread = myMessages.filter(m => !m.read && m.sender_id !== currentUser.id).length;
+  document.getElementById('sc-messages').textContent = unread;
+  if (unread > 0) { document.getElementById('msgBadge').style.display='block'; document.getElementById('msgBadge').textContent=unread; }
+  renderMessages();
+
+  // Mark as read
+  if (unread > 0) {
+    await _SB.from('messages').update({read:true}).eq('recipient_id', currentUser.id).eq('read', false);
+  }
+}
+
+function renderProjects() {
+  const statusClass = {active:'s-active',review:'s-review',complete:'s-complete',upcoming:'s-upcoming'};
+  const statusLabel = {active:'Active',review:'In Review',complete:'Complete',upcoming:'Upcoming'};
+  const html = myProjects.length ? myProjects.map(p => {
+    const due = p.due_date ? new Date(p.due_date).toLocaleDateString('en-US',{month:'short',day:'numeric'}) : 'No due date';
+    return `<div class="proj-item">
+      <div class="proj-item-hdr">
+        <div><div class="proj-title">${p.title}</div><div class="proj-type">${p.service_type || 'Project'}</div></div>
+        <span class="status-pill ${statusClass[p.status]||'s-active'}">${statusLabel[p.status]||p.status}</span>
+      </div>
+      <div class="prog-wrap">
+        <div class="prog-label"><span>Progress</span><span>${p.progress||0}%</span></div>
+        <div class="prog-track"><div class="prog-fill" style="width:${p.progress||0}%"></div></div>
+      </div>
+      <div class="proj-meta">
+        <div class="proj-meta-item"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg> Due ${due}</div>
+        ${p.description ? `<div class="proj-meta-item" style="flex:1;white-space:normal;">${p.description}</div>` : ''}
+      </div>
+    </div>`;
+  }).join('') : '<div class="empty-state">No projects yet. Submit an inquiry to get started.</div>';
+  document.getElementById('dash-projects').innerHTML = html;
+  document.getElementById('all-projects').innerHTML = html;
+}
+
+function renderFiles() {
+  const ext = name => name.split('.').pop().toUpperCase();
+  const iconClass = name => {
+    const e = name.split('.').pop().toLowerCase();
+    if (e==='pdf') return 'pdf';
+    if (['png','jpg','jpeg','gif','zip'].includes(e)) return e==='zip'?'zip':'img';
+    return 'doc';
+  };
+  const html = myFiles.length ? myFiles.map(f => `<div class="file-item" onclick="window.open('${f.file_url}','_blank')">
+    <div class="file-icon ${iconClass(f.name)}">${ext(f.name)}</div>
+    <div class="file-info">
+      <div class="file-name">${f.name}</div>
+      <div class="file-meta">${f.projects?.title || 'Project'} · ${f.file_size||''} · ${timeAgo(f.created_at)}</div>
+    </div>
+    <div class="file-dl"><svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg></div>
+  </div>`).join('') : '<div class="empty-state">No files shared yet.</div>';
+  document.getElementById('all-files').innerHTML = html;
+}
+
+function renderMessages() {
+  const html = myMessages.length ? myMessages.map(m => `<div class="msg-thread">
+    <div class="msg-hdr">
+      <div class="msg-sender">${!m.read && m.sender_id !== currentUser.id ? '<span class="unread-dot"></span>' : ''}${m.sender?.full_name || 'Lana'}</div>
+      <div class="msg-time">${timeAgo(m.created_at)}</div>
+    </div>
+    <div class="msg-preview">${m.body}</div>
+    ${m.project ? `<div class="msg-project">${m.project.title}</div>` : ''}
+  </div>`).join('') : '<div class="empty-state">No messages yet.</div>';
+  document.getElementById('dash-messages').innerHTML = html;
+  document.getElementById('all-messages').innerHTML = html;
+}
+
+async function sendMessage() {
+  const body = document.getElementById('client-msg').value.trim();
+  if (!body || !lanaId) return;
+  const { error } = await _SB.from('messages').insert({ sender_id: currentUser.id, recipient_id: lanaId, body });
+  if (error) showToast('Error sending message', 'error');
+  else { showToast('✓ Message sent to Lana', 'success'); document.getElementById('client-msg').value = ''; await loadMessages(); }
+}
+
+async function sendMessage2() {
+  const body = document.getElementById('client-msg-2').value.trim();
+  if (!body || !lanaId) return;
+  const { error } = await _SB.from('messages').insert({ sender_id: currentUser.id, recipient_id: lanaId, body });
+  if (error) showToast('Error sending message', 'error');
+  else { showToast('✓ Message sent', 'success'); document.getElementById('client-msg-2').value = ''; await loadMessages(); }
+}
+
+async function submitInquiry() {
+  const service = document.getElementById('inq-service').value;
+  const msg = document.getElementById('inq-msg').value.trim();
+  if (!msg) { showToast('Please describe what you need.', 'error'); return; }
+  const { error } = await _SB.from('inquiries').insert({ client_id: currentUser.id, name: currentUser.full_name, email: currentUser.email, service_type: service, message: msg });
+  if (error) showToast('Error submitting inquiry', 'error');
+  else { showToast('✓ Inquiry submitted! Lana will be in touch.', 'success'); document.getElementById('inq-msg').value = ''; }
+}
+
+function switchView(name, el) {
+  document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  document.getElementById('view-' + name).classList.add('active');
+  if (el) el.classList.add('active');
+}
+
+function getTimeOfDay() {
+  const h = new Date().getHours();
+  if (h < 12) return 'morning';
+  if (h < 17) return 'afternoon';
+  return 'evening';
+}
+
+function timeAgo(dateStr) {
+  const d = new Date(dateStr), now = new Date();
+  const diff = Math.floor((now - d) / 1000);
+  if (diff < 60) return 'just now';
+  if (diff < 3600) return Math.floor(diff/60) + 'm ago';
+  if (diff < 86400) return Math.floor(diff/3600) + 'h ago';
+  return d.toLocaleDateString('en-US',{month:'short',day:'numeric'});
+}
+
+function showToast(msg, type = 'success') {
+  const t = document.getElementById('toast');
+  t.textContent = msg; t.className = `toast ${type} show`;
+  setTimeout(() => t.classList.remove('show'), 3000);
+}
+
+async function signOut() {
+  await _SB.auth.signOut();
+  showPortal('login');
+}
+</script>
+
+</div>
+
+<!-- PORTAL ROUTER -->
+<script>
+function showPortal(page) {
+  document.querySelectorAll('.portal-page').forEach(p => p.classList.remove('portal-active'));
+
+  if (page === 'main') {
+    // Restore main site
+    document.body.style.overflow = '';
+    document.body.style.height = '';
+    const mc = document.getElementById('main-content');
+    if (mc) mc.style.display = 'block';
+    const mainNav = document.querySelector('nav:not(#cs-nav)');
+    if (mainNav) mainNav.style.display = 'flex';
+  } else {
+    // Hide main site entirely
+    document.body.style.overflow = 'hidden';
+    const mc = document.getElementById('main-content');
+    if (mc) mc.style.display = 'none';
+    const mainNav = document.querySelector('nav:not(#cs-nav)');
+    if (mainNav) mainNav.style.display = 'none';
+    document.querySelectorAll('.cs-page').forEach(p => p.style.display = 'none');
+
+    const target = document.getElementById('portal-' + page);
+    if (target) {
+      target.classList.add('portal-active');
+      target.scrollTop = 0;
+    }
+
+    // Init the correct dashboard
+    if (page === 'login') {
+      if (typeof initLoginPortal === 'function') initLoginPortal();
+    } else if (page === 'owner') {
+      if (typeof initOwnerDashboard === 'function') initOwnerDashboard();
+    } else if (page === 'client') {
+      if (typeof initClientDashboard === 'function') initClientDashboard();
+    }
+  }
+}
+
+// Portal router ready.
+</script>
+
 </body>
 </html>
