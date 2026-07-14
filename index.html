@@ -186,21 +186,6 @@ h2.section-h2 em{font-style:normal;font-family:'Plus Jakarta Sans',sans-serif;fo
 .proj-card.wide{grid-column:span 2;display:grid;grid-template-columns:1.3fr 1fr;}
 .proj-card.wide .proj-img{height:100%;min-height:0;}
 
-/* ── REVIEWS ── */
-#reviews{background:var(--bg2);border-top:1px solid var(--border);}
-.reviews-top{text-align:center;margin-bottom:3.5rem;}
-.reviews-top .section-eyebrow{justify-content:center;}
-.reviews-top .section-sub{margin:0 auto;}
-.reviews-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.2rem;}
-.review-card{background:var(--card);border:1px solid var(--border);border-radius:20px;padding:2rem;transition:border-color 0.2s,transform 0.2s;}
-.review-card:hover{border-color:var(--border-hover);transform:translateY(-3px);}
-.review-stars{color:#f5c842;font-size:0.8rem;letter-spacing:0.1em;margin-bottom:1rem;}
-.review-text{font-size:0.86rem;color:var(--off-white);line-height:1.75;margin-bottom:1.5rem;font-style:italic;font-weight:300;}
-.reviewer{display:flex;align-items:center;gap:0.75rem;}
-.reviewer-av{width:38px;height:38px;border-radius:50%;background:var(--bg3);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:0.78rem;color:var(--periwinkle-light);flex-shrink:0;}
-.reviewer-name{font-size:0.82rem;font-weight:700;}
-.reviewer-role{font-size:0.71rem;color:var(--gray-light);}
-
 /* ── CONTACT ── */
 #contact{background:var(--bg);border-top:1px solid var(--border);}
 .contact-grid{display:grid;grid-template-columns:1fr 1.2fr;gap:5rem;align-items:start;}
@@ -1078,43 +1063,6 @@ footer{background:var(--bg);border-top:1px solid var(--border);padding:2.5rem;}
       <a href="#contact" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'}); return false;" class="creative-cta-btn">Get In Touch →</a>
     </div>
 
-  </div>
-</section>
-
-<!-- REVIEWS -->
-<section id="reviews">
-  <div class="container">
-    <div class="reviews-top">
-      <div class="section-eyebrow">Client Feedback</div>
-      <h2 class="section-h2">What clients say.</h2>
-      <p class="section-sub">Real feedback from real engagements. Replace these with your actual client quotes.</p>
-    </div>
-    <div class="reviews-grid">
-      <div class="review-card">
-        <div class="review-stars">★★★★★</div>
-        <p class="review-text">Lana didn't just fix our website — she rebuilt the way our entire operation runs digitally. The systems she put in place saved us hours every week and our traffic tripled in four months.</p>
-        <div class="reviewer">
-          <div class="reviewer-av">JM</div>
-          <div><div class="reviewer-name">Jane M. — Replace This</div><div class="reviewer-role">Founder, [Brand Name]</div></div>
-        </div>
-      </div>
-      <div class="review-card">
-        <div class="review-stars">★★★★★</div>
-        <p class="review-text">She understands operations at a corporate level but executes like a lean startup. That combination is genuinely rare. Our team actually follows the systems she built because they make sense.</p>
-        <div class="reviewer">
-          <div class="reviewer-av">TK</div>
-          <div><div class="reviewer-name">Tom K. — Replace This</div><div class="reviewer-role">CEO, [Company Name]</div></div>
-        </div>
-      </div>
-      <div class="review-card">
-        <div class="review-stars">★★★★★</div>
-        <p class="review-text">The Google Ads campaign she managed had a 5x return in the first month. Transparent, organized, and she delivers exactly what she commits to. No surprises, no excuses.</p>
-        <div class="reviewer">
-          <div class="reviewer-av">SR</div>
-          <div><div class="reviewer-name">Sara R. — Replace This</div><div class="reviewer-role">Marketing Director, [Company]</div></div>
-        </div>
-      </div>
-    </div>
   </div>
 </section>
 
