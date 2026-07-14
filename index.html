@@ -1747,8 +1747,7 @@ function showPage(page) {
     mainNav.style.display = 'flex';
     csNav.style.display = 'none';
     csPages.forEach(p => p.style.display = 'none');
-    window.scrollTo({top: 0, behavior: 'smooth'});
-    history.pushState({page: 'main'}, '', window.location.pathname);
+    window.scrollTo(0, 0);
   } else {
     mainContent.style.display = 'none';
     mainNav.style.display = 'none';
@@ -1757,8 +1756,6 @@ function showPage(page) {
     const target = document.getElementById('cs-' + page);
     if (target) {
       window.scrollTo(0, 0);
-      document.documentElement.scrollTop = 0;
-      document.body.scrollTop = 0;
       target.style.display = 'block';
       target.querySelectorAll('.cs-stat,.cs-feature,.cs-tech,.cs-tl-item').forEach(el => {
         el.style.opacity = '0';
@@ -1770,29 +1767,9 @@ function showPage(page) {
         }, 50);
       });
     }
-    history.pushState({page: page}, '', '#' + page);
   }
   return false;
 }
-
-window.addEventListener('popstate', function(e) {
-  const hash = window.location.hash.replace('#','');
-  if (hash && ['prooof','roadrunner','clubfitness','relay','resume'].includes(hash)) {
-    showPage(hash);
-  } else {
-    showPage('main');
-  }
-});
-
-window.addEventListener('load', function() {
-  const hash = window.location.hash.replace('#','');
-  if (hash && ['prooof','roadrunner','clubfitness','relay','resume'].includes(hash)) {
-    showPage(hash);
-  } else {
-    // Force to top, clear any stale anchor hash
-    window.scrollTo(0, 0);
-  }
-});
 </script>
 
 
@@ -2045,9 +2022,9 @@ window.addEventListener('load', function() {
   --red: #f87171; --red-dim: rgba(248,113,113,0.1);
   --green: #b8f5a0; --green-dim: rgba(184,245,160,0.1);
 }
-*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
-html,body{margin:0;padding:0;min-height:100vh;}
-body{background:var(--bg);color:var(--white);font-family:'Plus Jakarta Sans',sans-serif;display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:100vh;padding:2rem;}
+
+
+
 
 .login-wrap{width:100%;max-width:420px;}
 
@@ -2122,9 +2099,9 @@ body{background:var(--bg);color:var(--white);font-family:'Plus Jakarta Sans',san
   --red:#f87171;--red-dim:rgba(248,113,113,0.1);
   --sidebar:220px;
 }
-*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
-html,body{margin:0;padding:0;height:100%;}
-body{background:var(--bg);color:var(--white);font-family:'Plus Jakarta Sans',sans-serif;font-size:14px;line-height:1.5;display:flex;min-height:100vh;}
+
+
+
 
 .sidebar{width:var(--sidebar);background:var(--bg2);border-right:1px solid var(--border);display:flex;flex-direction:column;position:fixed;top:0;left:0;bottom:0;z-index:100;}
 .sidebar-logo{padding:1.4rem;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:0.6rem;}
@@ -2257,7 +2234,7 @@ body{background:var(--bg);color:var(--white);font-family:'Plus Jakarta Sans',san
 .r-card{background:var(--card);border:1px solid var(--border);border-radius:12px;overflow:hidden;}
 .r-card-hdr{padding:0.85rem 1.1rem;border-bottom:1px solid var(--border);font-size:0.82rem;font-weight:700;display:flex;align-items:center;gap:0.5rem;}
 .r-card-hdr svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2;color:var(--periwinkle);}
-.r-card-body{padding:1.1rem;}
+.r-card-
 
 /* FORMS */
 .form-group{display:flex;flex-direction:column;gap:0.35rem;margin-bottom:0.8rem;}
@@ -2299,7 +2276,7 @@ body{background:var(--bg);color:var(--white);font-family:'Plus Jakarta Sans',san
 /* MSG COMPOSER */
 .composer{background:var(--card);border:1px solid var(--border);border-radius:12px;overflow:hidden;}
 .composer-hdr{padding:0.75rem 1rem;border-bottom:1px solid var(--border);font-size:0.78rem;font-weight:600;}
-.composer-body{padding:0.8rem 1rem;}
+.composer-
 .msg-textarea{width:100%;background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:0.7rem 0.9rem;color:var(--white);font-family:inherit;font-size:0.82rem;resize:none;outline:none;transition:border-color 0.15s;min-height:80px;}
 .msg-textarea:focus{border-color:var(--periwinkle);}
 .msg-textarea::placeholder{color:var(--gray);}
@@ -2324,9 +2301,9 @@ body{background:var(--bg);color:var(--white);font-family:'Plus Jakarta Sans',san
   --red:#f87171;--red-dim:rgba(248,113,113,0.1);
   --sidebar:220px;
 }
-*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
-html,body{margin:0;padding:0;height:100%;}
-body{background:var(--bg);color:var(--white);font-family:'Plus Jakarta Sans',sans-serif;font-size:14px;line-height:1.5;display:flex;min-height:100vh;}
+
+
+
 
 .sidebar{width:var(--sidebar);background:var(--bg2);border-right:1px solid var(--border);display:flex;flex-direction:column;position:fixed;top:0;left:0;bottom:0;z-index:100;}
 .sidebar-logo{padding:1.4rem;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:0.6rem;}
@@ -2432,7 +2409,7 @@ body{background:var(--bg);color:var(--white);font-family:'Plus Jakarta Sans',san
 
 .composer{background:var(--card);border:1px solid var(--border);border-radius:12px;overflow:hidden;}
 .composer-hdr{padding:0.75rem 1rem;border-bottom:1px solid var(--border);font-size:0.78rem;font-weight:600;}
-.composer-body{padding:0.8rem 1rem;}
+.composer-
 .msg-textarea{width:100%;background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:0.7rem 0.9rem;color:var(--white);font-family:inherit;font-size:0.82rem;resize:none;outline:none;transition:border-color 0.15s;min-height:80px;}
 .msg-textarea:focus{border-color:var(--periwinkle);}
 .msg-textarea::placeholder{color:var(--gray);}
@@ -2452,7 +2429,7 @@ body{background:var(--bg);color:var(--white);font-family:'Plus Jakarta Sans',san
 
 .inq-form{background:var(--card);border:1px solid var(--border);border-radius:12px;overflow:hidden;}
 .inq-form-hdr{padding:0.85rem 1.1rem;border-bottom:1px solid var(--border);font-size:0.82rem;font-weight:700;display:flex;align-items:center;gap:0.5rem;}
-.inq-form-body{padding:1rem 1.1rem;display:flex;flex-direction:column;gap:0.7rem;}
+.inq-form-
 .form-input{width:100%;background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:0.6rem 0.8rem;color:var(--white);font-family:inherit;font-size:0.8rem;outline:none;transition:border-color 0.15s;}
 .form-input:focus{border-color:var(--periwinkle);}
 .form-input::placeholder{color:var(--gray);}
@@ -2486,10 +2463,14 @@ body{background:var(--bg);color:var(--white);font-family:'Plus Jakarta Sans',san
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <script>
-// ── GLOBAL SUPABASE INSTANCE (shared across all portal pages) ──
+// ── SUPABASE - lazy init, only when portal opens ──
 const _SUPA_URL = 'https://qtzklenumdvcvddrdsjw.supabase.co';
 const _SUPA_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InF0emtsZW51bWR2Y3ZkZHJkc2p3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODM5NjIxNzUsImV4cCI6MjA5OTUzODE3NX0.wxFl3MHslwpS0-Ggkai87r4xYElhqfiBwV2UFCiVX18';
-const _SB = window.supabase.createClient(_SUPA_URL, _SUPA_KEY);
+let _SB = null;
+function getSB() {
+  if (!_SB) _SB = window.supabase.createClient(_SUPA_URL, _SUPA_KEY);
+  return _SB;
+}
 </script>
 
 
@@ -2537,7 +2518,7 @@ const _SB = window.supabase.createClient(_SUPA_URL, _SUPA_KEY);
 <script>
 // If already logged in, redirect - called when login portal opens
 async function initLoginPortal() {
-  const { data: { session } } = await _SB.auth.getSession();
+  const { data: { session } } = await getSB().auth.getSession();
   if (session) await redirect(session.user);
 }
 
@@ -2572,7 +2553,7 @@ async function handleLogin() {
   spinner.style.display = 'block';
   errorMsg.style.display = 'none';
 
-  const { data, error } = await _SB.auth.signInWithPassword({ email, password });
+  const { data, error } = await getSB().auth.signInWithPassword({ email, password });
 
   if (error) {
     showError('Incorrect email or password. Need access? Email lana@asklana.co');
@@ -2874,10 +2855,10 @@ let allProjects = [];
 
 // ── INIT ──
 async function initOwnerDashboard() {
-  const { data: { session } } = await _SB.auth.getSession();
+  const { data: { session } } = await getSB().auth.getSession();
   if (!session) { showPortal('login'); return; }
 
-  const { data: profile } = await _SB.from('profiles').select('*').eq('id', session.user.id).single();
+  const { data: profile } = await getSB().from('profiles').select('*').eq('id', session.user.id).single();
   if (!profile || profile.role !== 'owner') { showPortal('login'); return; }
 
   currentUser = { ...session.user, ...profile };
@@ -2895,7 +2876,7 @@ async function loadAll() {
 }
 
 async function loadClients() {
-  const { data } = await _SB.from('profiles').select('*').eq('role','client').order('created_at', {ascending:false});
+  const { data } = await getSB().from('profiles').select('*').eq('role','client').order('created_at', {ascending:false});
   allClients = data || [];
   document.getElementById('clientCount').textContent = allClients.length;
   document.getElementById('s-clients').textContent = allClients.length;
@@ -2904,7 +2885,7 @@ async function loadClients() {
 }
 
 async function loadProjects() {
-  const { data } = await _SB.from('projects').select('*, profiles(full_name, email)').order('created_at',{ascending:false});
+  const { data } = await getSB().from('projects').select('*, profiles(full_name, email)').order('created_at',{ascending:false});
   allProjects = data || [];
   const active = allProjects.filter(p => p.status === 'active' || p.status === 'review').length;
   document.getElementById('s-projects').textContent = active;
@@ -2913,7 +2894,7 @@ async function loadProjects() {
 }
 
 async function loadMessages() {
-  const { data } = await _SB.from('messages').select('*, sender:profiles!sender_id(full_name), recipient:profiles!recipient_id(full_name), project:projects(title)').order('created_at',{ascending:false}).limit(20);
+  const { data } = await getSB().from('messages').select('*, sender:profiles!sender_id(full_name), recipient:profiles!recipient_id(full_name), project:projects(title)').order('created_at',{ascending:false}).limit(20);
   const unread = (data||[]).filter(m => !m.read && m.sender_id !== currentUser.id).length;
   document.getElementById('s-messages').textContent = unread;
   document.getElementById('msgCount').textContent = unread || '';
@@ -2921,7 +2902,7 @@ async function loadMessages() {
 }
 
 async function loadInquiries() {
-  const { data } = await _SB.from('inquiries').select('*').order('created_at',{ascending:false});
+  const { data } = await getSB().from('inquiries').select('*').order('created_at',{ascending:false});
   const newInq = (data||[]).filter(i => i.status === 'new').length;
   document.getElementById('s-inquiries').textContent = newInq;
   document.getElementById('inqCount').textContent = newInq || '';
@@ -2930,7 +2911,7 @@ async function loadInquiries() {
 }
 
 async function loadFiles() {
-  const { data } = await _SB.from('files').select('id');
+  const { data } = await getSB().from('files').select('id');
   document.getElementById('mg-files').textContent = (data||[]).length;
 }
 
@@ -3121,7 +3102,7 @@ async function createProject() {
   const btn = document.getElementById('createProjBtn');
   btn.disabled = true; btn.textContent = 'Creating...';
 
-  const { error } = await _SB.from('projects').insert({
+  const { error } = await getSB().from('projects').insert({
     title, client_id: clientId, service_type: service,
     description: desc, due_date: due || null, status: 'active', progress: 0
   });
@@ -3135,13 +3116,13 @@ async function createProject() {
 }
 
 async function updateProjectStatus(id, status) {
-  await _SB.from('projects').update({ status }).eq('id', id);
+  await getSB().from('projects').update({ status }).eq('id', id);
   showToast('Status updated', 'success');
   await loadProjects(); renderDashboard();
 }
 
 async function updateProgress(id, progress) {
-  await _SB.from('projects').update({ progress: parseInt(progress) }).eq('id', id);
+  await getSB().from('projects').update({ progress: parseInt(progress) }).eq('id', id);
   showToast('Progress updated', 'success');
 }
 
@@ -3152,7 +3133,7 @@ async function sendMessage() {
 
   if (!to || !body) { showToast('Select a client and type a message.', 'error'); return; }
 
-  const { error } = await _SB.from('messages').insert({
+  const { error } = await getSB().from('messages').insert({
     sender_id: currentUser.id,
     recipient_id: to,
     body,
@@ -3168,7 +3149,7 @@ async function sendMessage() {
 }
 
 async function markInquiryReplied(id) {
-  await _SB.from('inquiries').update({ status: 'replied' }).eq('id', id);
+  await getSB().from('inquiries').update({ status: 'replied' }).eq('id', id);
   showToast('Marked as replied', 'success');
   await loadInquiries();
 }
@@ -3226,7 +3207,7 @@ function timeAgo(dateStr) {
 }
 
 async function signOut() {
-  await _SB.auth.signOut();
+  await getSB().auth.signOut();
   showPortal('login');
 }
 </script>
@@ -3251,26 +3232,26 @@ async function signOut() {
   </div>
   <nav class="sidebar-nav">
     <div class="nav-label">Overview</div>
-    <button class="nav-item active" onclick="switchView('dashboard', this)">
+    <button class="nav-item active" onclick="switchViewClient('dashboard', this)">
       <span class="nav-icon"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg></span>
       Dashboard
     </button>
-    <button class="nav-item" onclick="switchView('projects', this)">
+    <button class="nav-item" onclick="switchViewClient('projects', this)">
       <span class="nav-icon"><svg viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg></span>
       My Projects
       <span class="nav-badge" id="projBadge" style="display:none;">0</span>
     </button>
-    <button class="nav-item" onclick="switchView('files', this)">
+    <button class="nav-item" onclick="switchViewClient('files', this)">
       <span class="nav-icon"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></span>
       Files & Deliverables
     </button>
     <div class="nav-label" style="margin-top:0.5rem;">Communication</div>
-    <button class="nav-item" onclick="switchView('messages', this)">
+    <button class="nav-item" onclick="switchViewClient('messages', this)">
       <span class="nav-icon"><svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg></span>
       Messages
       <span class="nav-badge" id="msgBadge" style="display:none;">0</span>
     </button>
-    <button class="nav-item" onclick="switchView('inquiry', this)">
+    <button class="nav-item" onclick="switchViewClient('inquiry', this)">
       <span class="nav-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg></span>
       New Inquiry
     </button>
@@ -3290,7 +3271,7 @@ async function signOut() {
       <div class="topbar-sub">Here's what's happening with your projects.</div>
     </div>
     <div>
-      <button class="btn btn-primary btn-sm" onclick="switchView('inquiry', null)">+ New Inquiry</button>
+      <button class="btn btn-primary btn-sm" onclick="switchViewClient('inquiry', null)">+ New Inquiry</button>
     </div>
   </div>
 
@@ -3346,15 +3327,15 @@ async function signOut() {
           </div>
           <div class="section-hdr"><h3>Quick Actions</h3></div>
           <div class="quick-actions">
-            <button class="qa-btn" onclick="switchView('inquiry', null)">
+            <button class="qa-btn" onclick="switchViewClient('inquiry', null)">
               <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
               Submit a New Inquiry
             </button>
-            <button class="qa-btn" onclick="switchView('files', null)">
+            <button class="qa-btn" onclick="switchViewClient('files', null)">
               <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
               View All Files
             </button>
-            <button class="qa-btn" onclick="switchView('messages', null)">
+            <button class="qa-btn" onclick="switchViewClient('messages', null)">
               <svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
               Open Messages
             </button>
@@ -3420,27 +3401,27 @@ async function signOut() {
 <div class="toast" id="toast"></div>
 
 <script>
-let currentUser = null;
+let _cUser = null;
 let lanaId = null;
 let myProjects = [];
 let myFiles = [];
 let myMessages = [];
 
 async function initClientDashboard() {
-  const { data: { session } } = await _SB.auth.getSession();
+  const { data: { session } } = await getSB().auth.getSession();
   if (!session) { showPortal('login'); return; }
 
-  const { data: profile } = await _SB.from('profiles').select('*').eq('id', session.user.id).single();
+  const { data: profile } = await getSB().from('profiles').select('*').eq('id', session.user.id).single();
   if (!profile || profile.role === 'owner') { showPortal('login'); return; }
 
-  currentUser = { ...session.user, ...profile };
+  _cUser = { ...session.user, ...profile };
   const initials = (profile.full_name || '?').split(' ').map(w=>w[0]).join('').toUpperCase().slice(0,2);
   document.getElementById('userAv').textContent = initials;
   document.getElementById('userName').textContent = profile.full_name || session.user.email;
   document.getElementById('topbarGreeting').textContent = `Good ${getTimeOfDay()}, ${(profile.full_name||'').split(' ')[0] || 'there'} 👋`;
 
   // Get Lana's profile for messaging
-  const { data: lana } = await _SB.from('profiles').select('id').eq('role','owner').single();
+  const { data: lana } = await getSB().from('profiles').select('id').eq('role','owner').single();
   lanaId = lana?.id;
 
   await loadAll();
@@ -3451,7 +3432,7 @@ async function loadAll() {
 }
 
 async function loadProjects() {
-  const { data } = await _SB.from('projects').select('*').eq('client_id', currentUser.id).order('created_at',{ascending:false});
+  const { data } = await getSB().from('projects').select('*').eq('client_id', _cUser.id).order('created_at',{ascending:false});
   myProjects = data || [];
   const active = myProjects.filter(p => p.status === 'active' || p.status === 'review').length;
   document.getElementById('sc-projects').textContent = active;
@@ -3464,7 +3445,7 @@ async function loadProjects() {
 async function loadFiles() {
   const projIds = myProjects.map(p => p.id);
   if (!projIds.length) { myFiles = []; document.getElementById('sc-files').textContent = 0; document.getElementById('ra-files').textContent = '0 files'; return; }
-  const { data } = await _SB.from('files').select('*, projects(title)').in('project_id', projIds).order('created_at',{ascending:false});
+  const { data } = await getSB().from('files').select('*, projects(title)').in('project_id', projIds).order('created_at',{ascending:false});
   myFiles = data || [];
   document.getElementById('sc-files').textContent = myFiles.length;
   document.getElementById('ra-files').textContent = myFiles.length + ' files';
@@ -3472,18 +3453,18 @@ async function loadFiles() {
 }
 
 async function loadMessages() {
-  const { data } = await _SB.from('messages').select('*, sender:profiles!sender_id(full_name), project:projects(title)')
-    .or(`recipient_id.eq.${currentUser.id},sender_id.eq.${currentUser.id}`)
+  const { data } = await getSB().from('messages').select('*, sender:profiles!sender_id(full_name), project:projects(title)')
+    .or(`recipient_id.eq.${_cUser.id},sender_id.eq.${_cUser.id}`)
     .order('created_at',{ascending:false}).limit(20);
   myMessages = data || [];
-  const unread = myMessages.filter(m => !m.read && m.sender_id !== currentUser.id).length;
+  const unread = myMessages.filter(m => !m.read && m.sender_id !== _cUser.id).length;
   document.getElementById('sc-messages').textContent = unread;
   if (unread > 0) { document.getElementById('msgBadge').style.display='block'; document.getElementById('msgBadge').textContent=unread; }
   renderMessages();
 
   // Mark as read
   if (unread > 0) {
-    await _SB.from('messages').update({read:true}).eq('recipient_id', currentUser.id).eq('read', false);
+    await getSB().from('messages').update({read:true}).eq('recipient_id', _cUser.id).eq('read', false);
   }
 }
 
@@ -3523,7 +3504,7 @@ function renderFiles() {
     <div class="file-icon ${iconClass(f.name)}">${ext(f.name)}</div>
     <div class="file-info">
       <div class="file-name">${f.name}</div>
-      <div class="file-meta">${f.projects?.title || 'Project'} · ${f.file_size||''} · ${timeAgo(f.created_at)}</div>
+      <div class="file-meta">${f.projects?.title || 'Project'} · ${f.file_size||''} · ${_cTimeAgo(f.created_at)}</div>
     </div>
     <div class="file-dl"><svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg></div>
   </div>`).join('') : '<div class="empty-state">No files shared yet.</div>';
@@ -3533,8 +3514,8 @@ function renderFiles() {
 function renderMessages() {
   const html = myMessages.length ? myMessages.map(m => `<div class="msg-thread">
     <div class="msg-hdr">
-      <div class="msg-sender">${!m.read && m.sender_id !== currentUser.id ? '<span class="unread-dot"></span>' : ''}${m.sender?.full_name || 'Lana'}</div>
-      <div class="msg-time">${timeAgo(m.created_at)}</div>
+      <div class="msg-sender">${!m.read && m.sender_id !== _cUser.id ? '<span class="unread-dot"></span>' : ''}${m.sender?.full_name || 'Lana'}</div>
+      <div class="msg-time">${_cTimeAgo(m.created_at)}</div>
     </div>
     <div class="msg-preview">${m.body}</div>
     ${m.project ? `<div class="msg-project">${m.project.title}</div>` : ''}
@@ -3546,29 +3527,29 @@ function renderMessages() {
 async function sendMessage() {
   const body = document.getElementById('client-msg').value.trim();
   if (!body || !lanaId) return;
-  const { error } = await _SB.from('messages').insert({ sender_id: currentUser.id, recipient_id: lanaId, body });
-  if (error) showToast('Error sending message', 'error');
-  else { showToast('✓ Message sent to Lana', 'success'); document.getElementById('client-msg').value = ''; await loadMessages(); }
+  const { error } = await getSB().from('messages').insert({ sender_id: _cUser.id, recipient_id: lanaId, body });
+  if (error) _cToast('Error sending message', 'error');
+  else { _cToast('✓ Message sent to Lana', 'success'); document.getElementById('client-msg').value = ''; await loadMessages(); }
 }
 
 async function sendMessage2() {
   const body = document.getElementById('client-msg-2').value.trim();
   if (!body || !lanaId) return;
-  const { error } = await _SB.from('messages').insert({ sender_id: currentUser.id, recipient_id: lanaId, body });
-  if (error) showToast('Error sending message', 'error');
-  else { showToast('✓ Message sent', 'success'); document.getElementById('client-msg-2').value = ''; await loadMessages(); }
+  const { error } = await getSB().from('messages').insert({ sender_id: _cUser.id, recipient_id: lanaId, body });
+  if (error) _cToast('Error sending message', 'error');
+  else { _cToast('✓ Message sent', 'success'); document.getElementById('client-msg-2').value = ''; await loadMessages(); }
 }
 
 async function submitInquiry() {
   const service = document.getElementById('inq-service').value;
   const msg = document.getElementById('inq-msg').value.trim();
-  if (!msg) { showToast('Please describe what you need.', 'error'); return; }
-  const { error } = await _SB.from('inquiries').insert({ client_id: currentUser.id, name: currentUser.full_name, email: currentUser.email, service_type: service, message: msg });
-  if (error) showToast('Error submitting inquiry', 'error');
-  else { showToast('✓ Inquiry submitted! Lana will be in touch.', 'success'); document.getElementById('inq-msg').value = ''; }
+  if (!msg) { _cToast('Please describe what you need.', 'error'); return; }
+  const { error } = await getSB().from('inquiries').insert({ client_id: _cUser.id, name: _cUser.full_name, email: _cUser.email, service_type: service, message: msg });
+  if (error) _cToast('Error submitting inquiry', 'error');
+  else { _cToast('✓ Inquiry submitted! Lana will be in touch.', 'success'); document.getElementById('inq-msg').value = ''; }
 }
 
-function switchView(name, el) {
+function switchViewClient(name, el) {
   document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
   document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
   document.getElementById('view-' + name).classList.add('active');
@@ -3582,7 +3563,7 @@ function getTimeOfDay() {
   return 'evening';
 }
 
-function timeAgo(dateStr) {
+function _cTimeAgo(dateStr) {
   const d = new Date(dateStr), now = new Date();
   const diff = Math.floor((now - d) / 1000);
   if (diff < 60) return 'just now';
@@ -3591,14 +3572,14 @@ function timeAgo(dateStr) {
   return d.toLocaleDateString('en-US',{month:'short',day:'numeric'});
 }
 
-function showToast(msg, type = 'success') {
+function _cToast(msg, type = 'success') {
   const t = document.getElementById('toast');
   t.textContent = msg; t.className = `toast ${type} show`;
   setTimeout(() => t.classList.remove('show'), 3000);
 }
 
-async function signOut() {
-  await _SB.auth.signOut();
+async function signOutClient() {
+  await getSB().auth.signOut();
   showPortal('login');
 }
 </script>
