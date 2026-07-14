@@ -27,7 +27,7 @@
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
 html,body{margin:0;padding:0;}
 html{scroll-behavior:smooth;}
-body{background:var(--bg);color:var(--white);font-family:'Plus Jakarta Sans',sans-serif;font-size:16px;line-height:1.6;overflow-x:hidden;}
+body{background:var(--bg);color:var(--white);font-family:'Plus Jakarta Sans',sans-serif;font-size:16px;line-height:1.6;overflow-x:clip;}
 
 /* ── NAV ── */
 nav{position:fixed;top:0;left:0;right:0;z-index:999;background:var(--bg);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:0 2.5rem;height:64px;}
@@ -186,6 +186,21 @@ h2.section-h2 em{font-style:normal;font-family:'Plus Jakarta Sans',sans-serif;fo
 .proj-card.wide{grid-column:span 2;display:grid;grid-template-columns:1.3fr 1fr;}
 .proj-card.wide .proj-img{height:100%;min-height:0;}
 
+/* ── REVIEWS ── */
+#reviews{background:var(--bg2);border-top:1px solid var(--border);}
+.reviews-top{text-align:center;margin-bottom:3.5rem;}
+.reviews-top .section-eyebrow{justify-content:center;}
+.reviews-top .section-sub{margin:0 auto;}
+.reviews-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.2rem;}
+.review-card{background:var(--card);border:1px solid var(--border);border-radius:20px;padding:2rem;transition:border-color 0.2s,transform 0.2s;}
+.review-card:hover{border-color:var(--border-hover);transform:translateY(-3px);}
+.review-stars{color:#f5c842;font-size:0.8rem;letter-spacing:0.1em;margin-bottom:1rem;}
+.review-text{font-size:0.86rem;color:var(--off-white);line-height:1.75;margin-bottom:1.5rem;font-style:italic;font-weight:300;}
+.reviewer{display:flex;align-items:center;gap:0.75rem;}
+.reviewer-av{width:38px;height:38px;border-radius:50%;background:var(--bg3);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:0.78rem;color:var(--periwinkle-light);flex-shrink:0;}
+.reviewer-name{font-size:0.82rem;font-weight:700;}
+.reviewer-role{font-size:0.71rem;color:var(--gray-light);}
+
 /* ── CONTACT ── */
 #contact{background:var(--bg);border-top:1px solid var(--border);}
 .contact-grid{display:grid;grid-template-columns:1fr 1.2fr;gap:5rem;align-items:start;}
@@ -274,7 +289,7 @@ footer{background:var(--bg);border-top:1px solid var(--border);padding:2.5rem;}
 .cs-hero-sub{font-size:0.78rem;color:rgba(255,255,255,0.5);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:2rem;}
 .cs-meta-pills{display:flex;gap:0.6rem;flex-wrap:wrap;justify-content:center;}
 .cs-meta-pill{background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);border-radius:100px;padding:0.35rem 0.9rem;font-size:0.72rem;color:rgba(255,255,255,0.6);font-weight:500;}
-.cs-body{max-width:1100px;margin:0 auto;padding:5rem 2.5rem 7rem;}
+.cs-
 .cs-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--border);border:1px solid var(--border);border-radius:18px;overflow:hidden;margin-bottom:5rem;}
 .cs-stat{background:var(--card);padding:2rem 1.5rem;text-align:center;}
 .cs-stat-num{font-size:1.8rem;font-weight:800;letter-spacing:-0.04em;color:var(--periwinkle-light);line-height:1;margin-bottom:0.35rem;}
@@ -319,7 +334,7 @@ footer{background:var(--bg);border-top:1px solid var(--border);padding:2.5rem;}
 .cs-nav-back{display:inline-flex;align-items:center;gap:0.5rem;color:var(--periwinkle);font-size:0.82rem;font-weight:600;text-decoration:none;margin-bottom:2.5rem;cursor:pointer;background:none;border:none;padding:0;}
 .cs-nav-back:hover{color:var(--periwinkle-light);}
 @media(max-width:900px){
-  .cs-body{padding:3rem 1.5rem 5rem;}
+  .cs-
   .cs-stats{grid-template-columns:1fr 1fr;}
   .cs-feature-grid{grid-template-columns:1fr 1fr;}
   .cs-launch{padding:2rem 1.5rem;}
@@ -343,342 +358,8 @@ footer{background:var(--bg);border-top:1px solid var(--border);padding:2.5rem;}
   .creative-cta-btn{display:block;text-align:center;}
 }
 
-/* ── RESUME PAGE ── */
-
-:root {
-  --bg: #0a0a0a;
-  --bg2: #111111;
-  --bg3: #1a1a1a;
-  --card: #141414;
-  --border: rgba(255,255,255,0.08);
-  --border-hover: rgba(255,255,255,0.18);
-  --periwinkle: #8b8ff5;
-  --periwinkle-light: #a8abff;
-  --white: #ffffff;
-  --off-white: #e8e8e8;
-  --gray: #555;
-  --gray-light: #999;
-  --accent-green: #b8f5a0;
-}
-*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
-html,body{margin:0;padding:0;}
-html{scroll-behavior:smooth;}
-body{background:var(--bg);color:var(--white);font-family:'Plus Jakarta Sans',sans-serif;font-size:16px;line-height:1.6;overflow-x:hidden;}
-
-/* ── NAV ── */
-
-
-
-
-
-
-
-
-
-/* ── HERO ── */
-.resume-hero{
-  padding-top:0;
-  background:var(--bg2);
-  border-bottom:1px solid var(--border);
-  padding-bottom:0;
-}
-.resume-hero-inner{
-  max-width:900px;
-  margin:0 auto;
-  padding:4rem 2.5rem 0;
-  display:grid;
-  grid-template-columns:1fr auto;
-  align-items:end;
-  gap:2rem;
-}
-.resume-name{
-  font-size:clamp(2rem,4vw,3.4rem);
-  font-weight:800;
-  letter-spacing:-0.04em;
-  line-height:1;
-  margin-bottom:0.6rem;
-}
-.resume-name span{color:var(--periwinkle);}
-.resume-title{
-  font-size:1rem;
-  color:var(--gray-light);
-  font-weight:400;
-  margin-bottom:1.2rem;
-}
-.resume-contact{
-  display:flex;
-  gap:1.5rem;
-  flex-wrap:wrap;
-  padding-bottom:2.5rem;
-}
-.resume-contact a{
-  display:inline-flex;
-  align-items:center;
-  gap:0.4rem;
-  color:var(--gray-light);
-  font-size:0.82rem;
-  font-weight:500;
-  text-decoration:none;
-  transition:color 0.2s;
-}
-.resume-contact a:hover{color:var(--periwinkle-light);}
-.resume-contact-icon{font-size:0.9rem;}
-
-.resume-available{
-  display:inline-flex;
-  align-items:center;
-  gap:0.5rem;
-  font-size:0.72rem;
-  font-weight:600;
-  color:var(--accent-green);
-  padding-bottom:2.5rem;
-  white-space:nowrap;
-}
-.resume-available::before{
-  content:'';width:7px;height:7px;border-radius:50%;
-  background:var(--accent-green);
-  animation:pulse 2s ease-in-out infinite;
-}
-
-/* ── MAIN LAYOUT ── */
-.resume-body{
-  max-width:900px;
-  margin:0 auto;
-  padding:3.5rem 2.5rem 6rem;
-  display:grid;
-  grid-template-columns:200px 1fr;
-  gap:0 4rem;
-}
-
-/* ── SECTION LABELS (left col) ── */
-.r-label{
-  font-size:0.65rem;
-  font-weight:700;
-  letter-spacing:0.16em;
-  text-transform:uppercase;
-  color:var(--periwinkle);
-  padding-top:0.25rem;
-  position:sticky;
-  top:80px;
-  align-self:start;
-}
-
-/* ── SECTION CONTENT (right col) ── */
-.r-section{
-  border-top:1px solid var(--border);
-  padding:2.5rem 0;
-  display:contents;
-}
-
-.r-row{
-  display:contents;
-}
-
-.r-row-label{
-  font-size:0.65rem;font-weight:700;letter-spacing:0.16em;text-transform:uppercase;
-  color:var(--periwinkle);padding-top:0.25rem;
-}
-
-.r-content{
-  border-top:1px solid var(--border);
-  padding:2.5rem 0;
-}
-
-.r-content:first-of-type{border-top:none;padding-top:0;}
-
-/* ── SUMMARY ── */
-.summary-text{
-  font-size:1rem;
-  color:var(--off-white);
-  line-height:1.8;
-  font-weight:400;
-}
-
-/* ── EDUCATION ── */
-.edu-degree{
-  font-size:0.97rem;
-  font-weight:700;
-  color:var(--white);
-  margin-bottom:0.2rem;
-}
-.edu-school{
-  font-size:0.85rem;
-  color:var(--gray-light);
-}
-
-/* ── SKILLS ── */
-.skills-grid{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:0.5rem;
-}
-.skill-item{
-  display:flex;
-  align-items:center;
-  gap:0.55rem;
-  font-size:0.84rem;
-  color:var(--off-white);
-}
-.skill-dot{
-  width:5px;height:5px;border-radius:50%;
-  background:var(--periwinkle);flex-shrink:0;
-}
-
-/* ── EXPERIENCE ── */
-.exp-block{
-  margin-bottom:2.5rem;
-}
-.exp-block:last-child{margin-bottom:0;}
-
-.exp-header{
-  display:flex;
-  justify-content:space-between;
-  align-items:flex-start;
-  gap:1rem;
-  flex-wrap:wrap;
-  margin-bottom:0.15rem;
-}
-.exp-role{
-  font-size:0.97rem;
-  font-weight:700;
-  color:var(--white);
-}
-.exp-dates{
-  font-size:0.75rem;
-  font-weight:600;
-  color:var(--periwinkle);
-  white-space:nowrap;
-  background:rgba(139,143,245,0.1);
-  border:1px solid rgba(139,143,245,0.2);
-  border-radius:100px;
-  padding:0.18rem 0.7rem;
-}
-.exp-company{
-  font-size:0.84rem;
-  color:var(--gray-light);
-  margin-bottom:0.9rem;
-}
-
-.exp-sub-role{
-  font-size:0.88rem;
-  font-weight:700;
-  color:var(--white);
-  margin:1rem 0 0.5rem;
-}
-.exp-sub-dates{
-  font-size:0.75rem;
-  color:var(--gray-light);
-  font-weight:500;
-  margin-left:0.5rem;
-}
-
-.exp-bullets{
-  list-style:none;
-  display:flex;
-  flex-direction:column;
-  gap:0.45rem;
-  margin-bottom:0.8rem;
-}
-.exp-bullets li{
-  font-size:0.84rem;
-  color:var(--gray-light);
-  line-height:1.65;
-  padding-left:1.1rem;
-  position:relative;
-}
-.exp-bullets li::before{
-  content:'→';
-  position:absolute;
-  left:0;
-  color:var(--periwinkle);
-  font-size:0.75rem;
-  top:0.12rem;
-}
-
-.exp-achievement{
-  background:rgba(139,143,245,0.07);
-  border:1px solid rgba(139,143,245,0.18);
-  border-left:3px solid var(--periwinkle);
-  border-radius:0 10px 10px 0;
-  padding:0.75rem 1rem;
-  margin-top:0.8rem;
-}
-.exp-achievement-label{
-  font-size:0.65rem;
-  font-weight:700;
-  letter-spacing:0.12em;
-  text-transform:uppercase;
-  color:var(--periwinkle);
-  margin-bottom:0.3rem;
-}
-.exp-achievement p{
-  font-size:0.82rem;
-  color:var(--off-white);
-  line-height:1.65;
-}
-
-/* ── AWARDS ── */
-.award-item{
-  display:flex;
-  align-items:center;
-  gap:0.7rem;
-  padding:0.6rem 0;
-  border-bottom:1px solid var(--border);
-  font-size:0.88rem;
-  font-weight:600;
-  color:var(--off-white);
-}
-.award-item:last-child{border-bottom:none;}
-.award-item svg{width:16px;height:16px;stroke:var(--periwinkle);fill:none;stroke-width:2;flex-shrink:0;}
-
-/* ── REFERENCES ── */
-.ref-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem;}
-.ref-card{
-  background:var(--card);
-  border:1px solid var(--border);
-  border-radius:12px;
-  padding:1.2rem;
-  transition:border-color 0.2s;
-}
-.ref-card:hover{border-color:var(--border-hover);}
-.ref-name{font-size:0.88rem;font-weight:700;color:var(--white);margin-bottom:0.15rem;}
-.ref-rel{font-size:0.75rem;color:var(--periwinkle);font-weight:600;margin-bottom:0.5rem;}
-.ref-org{font-size:0.78rem;color:var(--gray-light);margin-bottom:0.3rem;}
-.ref-contact{font-size:0.75rem;color:var(--gray-light);}
-.ref-contact a{color:var(--gray-light);text-decoration:none;}
-.ref-contact a:hover{color:var(--periwinkle-light);}
-
-/* ── PRINT ── */
-@media print {
-  nav,
-  body{background:#fff;color:#000;}
-  .resume-hero{background:#fff;padding-top:0;}
-  .resume-name span{color:#4a4ae8;}
-  .r-label,.r-row-label,.exp-dates,.resume-available,.exp-achievement-label,.award-item svg{color:#4a4ae8!important;}
-  .r-content{border-top:1px solid #e0e0e0;}
-  .exp-achievement{background:#f5f4ff;border-color:#4a4ae8;}
-  .ref-card{background:#f9f9f9;border-color:#e0e0e0;}
-  .skill-dot{background:#4a4ae8;}
-  .exp-bullets li::before{color:#4a4ae8;}
-}
-
-/* ── RESPONSIVE ── */
-@media(max-width:760px){
-  
-  .resume-hero-inner{grid-template-columns:1fr;gap:0;}
-  .resume-body{grid-template-columns:1fr;gap:0;padding:2rem 1.5rem 5rem;}
-  .r-label,.r-row-label{border-top:1px solid var(--border);padding-top:2rem;margin-bottom:1rem;display:block;}
-  .r-content{border-top:none;padding-top:0;}
-  .skills-grid{grid-template-columns:1fr 1fr;}
-  .ref-grid{grid-template-columns:1fr;}
-  .resume-available{padding-bottom:1.5rem;}
-}
-
-50%{opacity:0.4;}}
-to{opacity:1;transform:translateY(0);}}
-
-
 </style>
+<script>window.history.scrollRestoration = "manual"; window.scrollTo(0,0);</script>
 </head>
 <body>
 
@@ -1400,6 +1081,43 @@ to{opacity:1;transform:translateY(0);}}
   </div>
 </section>
 
+<!-- REVIEWS -->
+<section id="reviews">
+  <div class="container">
+    <div class="reviews-top">
+      <div class="section-eyebrow">Client Feedback</div>
+      <h2 class="section-h2">What clients say.</h2>
+      <p class="section-sub">Real feedback from real engagements. Replace these with your actual client quotes.</p>
+    </div>
+    <div class="reviews-grid">
+      <div class="review-card">
+        <div class="review-stars">★★★★★</div>
+        <p class="review-text">Lana didn't just fix our website — she rebuilt the way our entire operation runs digitally. The systems she put in place saved us hours every week and our traffic tripled in four months.</p>
+        <div class="reviewer">
+          <div class="reviewer-av">JM</div>
+          <div><div class="reviewer-name">Jane M. — Replace This</div><div class="reviewer-role">Founder, [Brand Name]</div></div>
+        </div>
+      </div>
+      <div class="review-card">
+        <div class="review-stars">★★★★★</div>
+        <p class="review-text">She understands operations at a corporate level but executes like a lean startup. That combination is genuinely rare. Our team actually follows the systems she built because they make sense.</p>
+        <div class="reviewer">
+          <div class="reviewer-av">TK</div>
+          <div><div class="reviewer-name">Tom K. — Replace This</div><div class="reviewer-role">CEO, [Company Name]</div></div>
+        </div>
+      </div>
+      <div class="review-card">
+        <div class="review-stars">★★★★★</div>
+        <p class="review-text">The Google Ads campaign she managed had a 5x return in the first month. Transparent, organized, and she delivers exactly what she commits to. No surprises, no excuses.</p>
+        <div class="reviewer">
+          <div class="reviewer-av">SR</div>
+          <div><div class="reviewer-name">Sara R. — Replace This</div><div class="reviewer-role">Marketing Director, [Company]</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- CONTACT -->
 <section id="contact">
   <div class="container">
@@ -2070,9 +1788,242 @@ window.addEventListener('load', function() {
   const hash = window.location.hash.replace('#','');
   if (hash && ['prooof','roadrunner','clubfitness','relay','resume'].includes(hash)) {
     showPage(hash);
+  } else {
+    // Force to top, clear any stale anchor hash
+    window.scrollTo(0, 0);
   }
 });
 </script>
+
+
+
+<!-- ══ RESUME PAGE ══ -->
+<div id="cs-resume" class="cs-page" style="display:none;padding-top:64px;min-height:100vh;background:#0a0a0a;">
+
+<style>
+.r-wrap{max-width:860px;margin:0 auto;padding:3rem 2.5rem 6rem;}
+.r-hero{padding:3rem 0 2rem;border-bottom:1px solid rgba(255,255,255,0.08);margin-bottom:0;}
+.r-name{font-size:clamp(2rem,4vw,3rem);font-weight:800;letter-spacing:-0.04em;line-height:1;margin-bottom:0.5rem;}
+.r-name em{color:#8b8ff5;font-style:normal;}
+.r-role{font-size:0.95rem;color:#888;font-weight:400;margin-bottom:1.2rem;}
+.r-contact{display:flex;gap:1.5rem;flex-wrap:wrap;}
+.r-contact a{color:#888;font-size:0.82rem;font-weight:500;text-decoration:none;transition:color 0.2s;}
+.r-contact a:hover{color:#a8abff;}
+.r-grid{display:grid;grid-template-columns:180px 1fr;gap:0 3.5rem;margin-top:0;}
+.r-sec-label{font-size:0.62rem;font-weight:700;letter-spacing:0.16em;text-transform:uppercase;color:#8b8ff5;padding-top:0.2rem;position:sticky;top:80px;align-self:start;}
+.r-sec-content{border-top:1px solid rgba(255,255,255,0.08);padding:2.2rem 0;}
+.r-summary{font-size:0.97rem;color:#e8e8e8;line-height:1.8;}
+.r-degree{font-size:0.95rem;font-weight:700;color:#fff;margin-bottom:0.2rem;}
+.r-school{font-size:0.83rem;color:#888;}
+.r-skills-grid{display:grid;grid-template-columns:1fr 1fr;gap:0.45rem;}
+.r-skill{display:flex;align-items:center;gap:0.5rem;font-size:0.83rem;color:#e8e8e8;}
+.r-skill::before{content:'';width:5px;height:5px;border-radius:50%;background:#8b8ff5;flex-shrink:0;}
+.r-exp{margin-bottom:2.2rem;}
+.r-exp:last-child{margin-bottom:0;}
+.r-exp-hdr{display:flex;justify-content:space-between;align-items:flex-start;gap:1rem;flex-wrap:wrap;margin-bottom:0.1rem;}
+.r-exp-role{font-size:0.95rem;font-weight:700;color:#fff;}
+.r-exp-dates{font-size:0.72rem;font-weight:600;color:#8b8ff5;background:rgba(139,143,245,0.1);border:1px solid rgba(139,143,245,0.2);border-radius:100px;padding:0.17rem 0.65rem;white-space:nowrap;}
+.r-exp-co{font-size:0.82rem;color:#888;margin-bottom:0.8rem;}
+.r-exp-sub{font-size:0.86rem;font-weight:700;color:#fff;margin:0.9rem 0 0.45rem;}
+.r-exp-sub span{font-size:0.72rem;color:#888;font-weight:400;margin-left:0.4rem;}
+.r-bullets{list-style:none;display:flex;flex-direction:column;gap:0.4rem;margin-bottom:0.7rem;}
+.r-bullets li{font-size:0.82rem;color:#888;line-height:1.65;padding-left:1.1rem;position:relative;}
+.r-bullets li::before{content:'→';position:absolute;left:0;color:#8b8ff5;font-size:0.72rem;top:0.1rem;}
+.r-achievement{background:rgba(139,143,245,0.07);border:1px solid rgba(139,143,245,0.18);border-left:3px solid #8b8ff5;border-radius:0 10px 10px 0;padding:0.7rem 1rem;margin-top:0.7rem;}
+.r-achievement-lbl{font-size:0.6rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:#8b8ff5;margin-bottom:0.25rem;}
+.r-achievement p{font-size:0.8rem;color:#e8e8e8;line-height:1.6;}
+.r-award{display:flex;align-items:center;gap:0.65rem;padding:0.55rem 0;border-bottom:1px solid rgba(255,255,255,0.08);font-size:0.86rem;font-weight:600;color:#e8e8e8;}
+.r-award:last-child{border-bottom:none;}
+.r-award::before{content:'★';color:#8b8ff5;font-size:0.7rem;}
+.r-refs{display:grid;grid-template-columns:1fr 1fr;gap:0.9rem;}
+.r-ref{background:#141414;border:1px solid rgba(255,255,255,0.07);border-radius:12px;padding:1.1rem;}
+.r-ref-name{font-size:0.86rem;font-weight:700;color:#fff;margin-bottom:0.12rem;}
+.r-ref-rel{font-size:0.72rem;color:#8b8ff5;font-weight:600;margin-bottom:0.4rem;}
+.r-ref-org{font-size:0.76rem;color:#888;margin-bottom:0.25rem;}
+.r-ref-contact{font-size:0.73rem;color:#888;}
+.r-ref-contact a{color:#888;text-decoration:none;}
+.r-ref-contact a:hover{color:#a8abff;}
+.r-print-btn{background:#8b8ff5;color:#0a0a0a;padding:0.45rem 1rem;border-radius:100px;font-size:0.78rem;font-weight:700;border:none;cursor:pointer;font-family:inherit;transition:background 0.2s;}
+.r-print-btn:hover{background:#a8abff;}
+@media(max-width:700px){
+  .r-grid{grid-template-columns:1fr;gap:0;}
+  .r-sec-label{position:static;border-top:1px solid rgba(255,255,255,0.08);padding-top:1.8rem;margin-bottom:0.8rem;display:block;}
+  .r-sec-content{border-top:none;padding-top:0;}
+  .r-skills-grid{grid-template-columns:1fr 1fr;}
+  .r-refs{grid-template-columns:1fr;}
+}
+@media print{
+  #cs-nav{display:none!important;}
+  .r-wrap{padding:1.5rem;}
+  body{background:#fff;color:#000;}
+  .r-name em,.r-sec-label,.r-exp-dates,.r-achievement-lbl,.r-award::before,.r-skill::before,.r-bullets li::before{color:#4a4ae8!important;}
+  .r-sec-content{border-top:1px solid #e0e0e0;}
+  .r-achievement{background:#f5f4ff;border-color:#4a4ae8;}
+  .r-ref{background:#f9f9f9;border-color:#e0e0e0;}
+}
+</style>
+
+<div class="r-wrap">
+  <div class="r-hero">
+    <div style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:1rem;margin-bottom:1.5rem;">
+      <div>
+        <div class="r-name">Eliana <em>(Lana)</em> Johnson</div>
+        <div class="r-role">Operations Leader · Systems Architect · Digital Strategist</div>
+      </div>
+      <button class="r-print-btn" onclick="window.print()">Print / Save PDF</button>
+    </div>
+    <div class="r-contact">
+      <a href="mailto:johnsoneliana7@gmail.com">✉ johnsoneliana7@gmail.com</a>
+      <a href="tel:5803401365">📱 580-340-1365</a>
+      <a href="#">📍 Oklahoma City, OK</a>
+      <a href="https://asklana.co" target="_blank">🌐 asklana.co</a>
+    </div>
+  </div>
+
+  <div class="r-grid">
+    <div class="r-sec-label">Summary</div>
+    <div class="r-sec-content">
+      <p class="r-summary">Versatile leader with experience spanning operations, finance, and marketing across corporate, franchise, and consulting environments. Skilled at leading large teams, driving growth through process improvement and strategic negotiation, and designing internal systems that streamline operations. Combines strong people leadership with a hands-on ability to build tools and technology that improve efficiency.</p>
+    </div>
+
+    <div class="r-sec-label">Education</div>
+    <div class="r-sec-content">
+      <div class="r-degree">Bachelor of Arts — Organizational Leadership & Development</div>
+      <div class="r-school">University of Oklahoma · Norman, Oklahoma</div>
+    </div>
+
+    <div class="r-sec-label">Key Skills</div>
+    <div class="r-sec-content">
+      <div class="r-skills-grid">
+        <div class="r-skill">Team Leadership & Management</div>
+        <div class="r-skill">SaaS Platform Efficiency & Implementation</div>
+        <div class="r-skill">Process Improvement & Systems Design</div>
+        <div class="r-skill">Social Media Strategy & SEO</div>
+        <div class="r-skill">Contract Negotiation</div>
+        <div class="r-skill">HTML/CSS, JavaScript, React Native & WordPress</div>
+        <div class="r-skill">Client Relationship Management</div>
+        <div class="r-skill">Google Ads, Meta Blueprint & Google Analytics</div>
+        <div class="r-skill">Employee Development</div>
+        <div class="r-skill">Excellent Written & Verbal Communication</div>
+      </div>
+    </div>
+
+    <div class="r-sec-label">Experience</div>
+    <div class="r-sec-content">
+
+      <div class="r-exp">
+        <div class="r-exp-hdr">
+          <div class="r-exp-role">Corporate Accounting Manager (AR/VMS)</div>
+          <span class="r-exp-dates">Oct 2026 — Present</span>
+        </div>
+        <div class="r-exp-co">Corporate Organization — Confidential</div>
+        <ul class="r-bullets">
+          <li>Manage 17-person team across VMS Accounting and Corporate Accounts Receivable functions</li>
+          <li>Oversee accounts receivable for 850+ franchise locations, ensuring billing accuracy and timely reconciliation</li>
+          <li>Design and implement internal systems to streamline team workflows and improve operational visibility</li>
+          <li>Partner with department leadership to drive process improvements and resolve escalations</li>
+        </ul>
+        <div class="r-achievement">
+          <div class="r-achievement-lbl">Notable Achievement</div>
+          <p>Independently designed and built an internal web-based team management platform with team hubs, admin dashboards, task scheduling, and professional development tools — now used to coordinate daily operations across both teams.</p>
+        </div>
+      </div>
+
+      <div class="r-exp">
+        <div class="r-exp-hdr">
+          <div class="r-exp-role">Oklahoma Operations Lead (Contract)</div>
+          <span class="r-exp-dates">Jan 2025 — Oct 2025</span>
+        </div>
+        <div class="r-exp-co">The Candice Group</div>
+        <ul class="r-bullets">
+          <li>Served as point-of-contact for operations across a portfolio spanning 2 multi-territory businesses (Oryon Canna, Wren Harper) and 3 commercial properties (Carmel Properties)</li>
+          <li>Managed and oversaw $12M+ in revenue across all business units</li>
+          <li>Audited processes, systems, and staff performance; developed and implemented strategies to improve efficiency and support employee development</li>
+          <li>Led high-impact contract and partnership negotiations across the portfolio</li>
+        </ul>
+        <div class="r-achievement">
+          <div class="r-achievement-lbl">Notable Achievement</div>
+          <p>Cut operational costs by a total of $160,000 through process and personnel restructuring.</p>
+        </div>
+      </div>
+
+      <div class="r-exp">
+        <div class="r-exp-hdr">
+          <div class="r-exp-role">Marketing Consultant (Contract)</div>
+          <span class="r-exp-dates">Dec 2024 — 2026</span>
+        </div>
+        <div class="r-exp-co">RoadRunner Scooters</div>
+        <ul class="r-bullets">
+          <li>Managed social media marketing strategy and execution, driving audience growth and conversion across all channels</li>
+          <li>Conducted ongoing audits to identify growth opportunities, content gaps, and process inefficiencies</li>
+          <li>Developed content strategy including blog posts, social captions, competitor positioning, website auditing and campaign messaging</li>
+        </ul>
+        <div class="r-achievement">
+          <div class="r-achievement-lbl">Notable Achievement</div>
+          <p>Streamlined and automated marketing processes to near-full self-sufficiency, reducing hands-on time to periodic audits and strategic adjustments.</p>
+        </div>
+      </div>
+
+      <div class="r-exp">
+        <div class="r-exp-hdr">
+          <div class="r-exp-role">Allshore Global Resources <span style="font-weight:400;color:#888;font-size:0.8rem;">(DBA Allshore Talent, part of Primero Group)</span></div>
+          <span class="r-exp-dates">Jun 2022 — Jan 2025</span>
+        </div>
+        <div class="r-exp-co">Global Staffing & Consulting</div>
+        <div class="r-exp-sub">Senior Client Consultant <span>Promoted Dec 2023</span></div>
+        <ul class="r-bullets">
+          <li>Assigned to manage the company's 2 largest accounts, The Deyo Group and Ulula Canada, overseeing all contracted workers across both</li>
+          <li>Led process improvement initiatives and implementation for contracted workforce operations</li>
+          <li>Handled HR functions including employee relations, performance management, and workforce coordination</li>
+        </ul>
+        <div class="r-exp-sub">Client Manager <span>Jun 2022 — Dec 2023</span></div>
+        <ul class="r-bullets">
+          <li>Served as primary liaison for client accounts, managing onboarding, delivery, and ongoing satisfaction</li>
+          <li>Managed a team of 48 software developers, aligning technical delivery with client needs and growth objectives</li>
+          <li>Collaborated cross-functionally with development teams to ensure services met evolving client requirements</li>
+        </ul>
+        <div class="r-achievement">
+          <div class="r-achievement-lbl">Notable Achievement</div>
+          <p>Promoted to Senior Client Consultant at the direct request of a client, who sought expanded access to my account management and leadership.</p>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="r-sec-label">Awards & Certs</div>
+    <div class="r-sec-content">
+      <div class="r-award">HOBY International Youth Ambassador</div>
+      <div class="r-award">Project Management Essentials Certified</div>
+      <div class="r-award">Google Ads Certified</div>
+      <div class="r-award">Meta Blueprint Certified</div>
+      <div class="r-award">Google Analytics Certified</div>
+    </div>
+
+    <div class="r-sec-label">References</div>
+    <div class="r-sec-content">
+      <div class="r-refs">
+        <div class="r-ref">
+          <div class="r-ref-name">Latoya Simmons</div>
+          <div class="r-ref-rel">Former Direct Supervisor</div>
+          <div class="r-ref-org">Client Relations Lead · Allshore Talent</div>
+          <div class="r-ref-contact">Available upon request</div>
+        </div>
+        <div class="r-ref">
+          <div class="r-ref-name">John Von Runnen</div>
+          <div class="r-ref-rel">Mentor / Former Supervisor</div>
+          <div class="r-ref-org">Founder & President · The Deyo Group Inc.</div>
+          <div class="r-ref-contact">
+            <a href="tel:9729780364">P: (972) 978-0364</a><br>
+            <a href="mailto:john.vonrunnen@deyogroup.com">john.vonrunnen@deyogroup.com</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+</div>
+<!-- END RESUME -->
 
 
 <style id="portal-styles">
